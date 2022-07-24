@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="1.13.01" author="joao.maia">
+        <addColumn schemaName="fks" tableName="tb_andamento">
+            <column name="id_usuario_acessos" type="bigint"/>
+        </addColumn>
+
+        <addForeignKeyConstraint
+                baseTableName="tb_andamento"
+                baseColumnNames="id_usuario_acessos"
+                constraintName="fk_tb_andamento"
+                referencedTableName="tb_usuario_acessos"
+                referencedColumnNames="id_usuario_acessos"/>
+    </changeSet>
+
+    <changeSet id="1.13.02" author="joao.maia">
+        <insert schemaName="fks"
+                tableName="tb_tipo_tratamento">
+            <column name="id_tipo_tratamento" value="6"/>
+            <column name="tp_tipo_tratamento" value="Resposta Cancelada"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1.13.03" author="giovane.oliveira">
+
+        <createTable schemaName="fks" tableName="tb_upload_arquivo">
+            <column name="id_upload_arquivo" type="bigint">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="nome_identificador" type="varchar"/>
+            <column name="nm_nome" type="varchar"/>
+            <column name="num_tamanho" type="bigint"/>
+            <column name="id_pedido" type="bigint"/>
+            <column name="tp_extensao" type="bigint"/>
+        </createTable>
+
+        <addPrimaryKey
+                constraintName="pk_id_upload_arquivo"
+                schemaName="fks"
+                tableName="tb_upload_arquivo"
+                columnNames="id_upload_arquivo"/>
+
+        <addForeignKeyConstraint baseTableName="tb_upload_arquivo"
+                                 baseColumnNames="id_pedido"
+                                 constraintName="fk_tb_pedido_arquivo"
+                                 referencedTableName="tb_pedido"
+                                 referencedColumnNames="id_pedido"/>
+
+        <createSequence sequenceName="seq_tb_upload_arquivo"
+                        schemaName="fks" startValue="1" incrementBy="1"/>
+
+    </changeSet>
+
+</databaseChangeLog>

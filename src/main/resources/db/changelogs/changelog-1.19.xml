@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="frank.ramirez" id="1.19.01">
+        <createTable tableName="tb_perfil_acessos">
+            <column name="id_perfil_acessos" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="nm_nome_perfil" type="varchar"/>
+            <column name="ds_descricao_perfil" type="varchar"/>
+        </createTable>
+        <createSequence sequenceName="seq_tb_perfil_acessos"
+                        schemaName="fks" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="frank.ramirez" id="1.19.02" >
+        <createTable schemaName="fks" tableName="tb_usuario_acesso_perfil_acesso">
+            <column name="id_usuario_acesso_perfil_acesso" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="id_usuario_acessos" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_perfil_acessos" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="papel" type="varchar(12)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_ativo" type="boolean"/>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="tb_usuario_acesso_perfil_acesso"
+                baseColumnNames="id_usuario_acessos"
+                constraintName="fk_usuario_acessos"
+                referencedTableName="tb_usuario_acessos"
+                referencedColumnNames="id_usuario_acessos"/>
+        <addForeignKeyConstraint
+                baseTableName="tb_usuario_acesso_perfil_acesso"
+                baseColumnNames="id_perfil_acessos"
+                constraintName="fk_perfil_acessos"
+                referencedTableName="tb_perfil_acessos"
+                referencedColumnNames="id_perfil_acessos"/>
+        <createSequence sequenceName="seq_tb_usuario_acesso_perfil_acesso"
+                        schemaName="fks" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="frank.ramirez" id="1.19.03">
+        <createTable tableName="tb_responsaveis">
+            <column name="id_responsaveis" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="responsavel_recurso_terceira_instancia" type="varchar(100)"/>
+            <column name="responsavel_recurso_quarta_instancia" type="varchar(100)"/>
+            <column name="id_unidade" type="bigint"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="tb_responsaveis"
+                                 baseColumnNames="id_unidade"
+                                 constraintName="fk_unidade"
+                                 referencedTableName="tb_unidade"
+                                 referencedColumnNames="id_unidade"/>
+        <createSequence sequenceName="seq_tb_responsaveis"
+                        schemaName="fks" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="frank.ramirez" id="1.19.04">
+        <createTable tableName="tb_alertas">
+            <column name="id_alerta" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="ds_alerta" type="varchar"/>
+        </createTable>
+        <createSequence sequenceName="seq_tb_alerta" schemaName="fks" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="frank.ramirez" id="1.19.05" >
+        <createTable schemaName="fks" tableName="tb_email_perfil_acesso">
+            <column name="id_email_perfil_acesso" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="id_email" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_perfil_acessos" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tipo_solicitacao" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="tb_email_perfil_acesso"
+                baseColumnNames="id_email"
+                constraintName="fk_email"
+                referencedTableName="tb_email"
+                referencedColumnNames="id_email"/>
+        <addForeignKeyConstraint
+                baseTableName="tb_email_perfil_acesso"
+                baseColumnNames="id_perfil_acessos"
+                constraintName="fk_perfil_acessos"
+                referencedTableName="tb_perfil_acessos"
+                referencedColumnNames="id_perfil_acessos"/>
+        <createSequence sequenceName="seq_tb_email_perfil_acesso" schemaName="fks" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+</databaseChangeLog>

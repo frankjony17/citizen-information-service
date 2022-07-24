@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="1.14.01" author="frank.ramirez">
+        <createTable tableName="tb_email" schemaName="sdsic">
+            <column name="id_email" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="tipo_solicitacao" type="int"/>
+            <column name="tipo_alerta" type="int"/>
+            <column name="data_referencia" type="int"/>
+            <column name="data_envio_email" type="int"/>
+            <column name="status_demanda" type="int"/>
+            <column name="dias_ante_data_referencia" type="int"/>
+            <column name="dias_apos_data_referencia" type="int"/>
+            <column name="reenviar_ate_alteracao_do_status" type="boolean"/>
+            <column name="acao_executada" type="int"/>
+            <column name="assunto_email" type="varchar(100)"/>
+            <column name="conteudo_email" type="text"/>
+        </createTable>
+        <createSequence sequenceName="seq_tb_email" schemaName="sdsic" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+</databaseChangeLog>

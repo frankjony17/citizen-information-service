@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="jean.reis" id="1.06.01">
+        <update schemaName="sdsic"
+                tableName="tb_status_solicitacao">
+            <column name="nm_nome" value="Edição Técnico"/>
+            <where>id_status_solicitacao = 8</where>
+        </update>
+
+    </changeSet>
+
+
+    <changeSet author="giovane.oliveira" id="1.06.02">
+
+        <createTable tableName="tb_tipo_resposta" schemaName="sdsic">
+            <column name="id_tipo_resposta" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="ds_tipo_resposta" type="varchar"/>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet author="giovane.oliveira" id="1.06.03">
+        <createTable tableName="tb_classificacao_tipo_resposta" schemaName="sdsic">
+            <column name="id_classificacao_tipo_resposta" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="ds_classificacao_tipo_resposta" type="varchar"/>
+            <column name="id_tipo_resposta" type="bigint"/>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="tb_classificacao_tipo_resposta"
+                baseColumnNames="id_tipo_resposta"
+                constraintName="fk_tipo_resposta_classificacao"
+                referencedTableName="tb_tipo_resposta"
+                referencedColumnNames="id_tipo_resposta"/>
+
+
+    </changeSet>
+
+<changeSet author="giovane.oliveira" id="1.06.04">
+
+    <insert tableName="tb_tipo_resposta" schemaName="sdsic">
+        <column name="id_tipo_resposta" value="1"/>
+        <column name="ds_tipo_resposta" value="Acesso Concedido"/>
+    </insert>
+
+    <insert tableName="tb_tipo_resposta" schemaName="sdsic">
+        <column name="id_tipo_resposta" value="2"/>
+        <column name="ds_tipo_resposta" value="Acesso Negado"/>
+    </insert>
+
+    <insert tableName="tb_tipo_resposta" schemaName="sdsic">
+        <column name="id_tipo_resposta" value="3"/>
+        <column name="ds_tipo_resposta" value="Acesso Parcialmente Concedido"/>
+    </insert>
+
+    <insert tableName="tb_tipo_resposta" schemaName="sdsic">
+        <column name="id_tipo_resposta" value="4"/>
+        <column name="ds_tipo_resposta" value="Informação inexistente"/>
+    </insert>
+
+    <insert tableName="tb_tipo_resposta" schemaName="sdsic">
+        <column name="id_tipo_resposta" value="5"/>
+        <column name="ds_tipo_resposta" value="Não se trata de solicitação de informação"/>
+    </insert>
+
+    <insert tableName="tb_tipo_resposta" schemaName="sdsic">
+        <column name="id_tipo_resposta" value="6"/>
+        <column name="ds_tipo_resposta" value="Órgão não tem competência para responder sobre o assunto"/>
+    </insert>
+
+    <insert tableName="tb_tipo_resposta" schemaName="sdsic">
+        <column name="id_tipo_resposta" value="7"/>
+        <column name="ds_tipo_resposta" value="Pergunta duplicada/ repetida"/>
+    </insert>
+
+</changeSet>
+
+    <changeSet author="giovane.oliveira" id="1.06.05">
+
+         <!--Acesso Concedido-->
+        <insert tableName="tb_classificacao_tipo_resposta" schemaName="sdsic">
+            <column name="id_classificacao_tipo_resposta" value="1"/>
+            <column name="ds_classificacao_tipo_resposta"
+                    value="Comunicada necessidade de pagamento de custos e/ou postagem e/ou reprodução"/>
+            <column name="id_tipo_resposta" value="1"/>
+        </insert>
+
+        <insert tableName="tb_classificacao_tipo_resposta" schemaName="sdsic">
+            <column name="id_classificacao_tipo_resposta" value="2"/>
+            <column name="ds_classificacao_tipo_resposta"
+                    value="Concedido acesso a sistema corporativo para consulta da informação"/>
+            <column name="id_tipo_resposta" value="1"/>
+        </insert>
+
+        <insert tableName="tb_classificacao_tipo_resposta" schemaName="sdsic">
+            <column name="id_classificacao_tipo_resposta" value="3"/>
+            <column name="ds_classificacao_tipo_resposta"
+                    value="Data, hora e local para consulta agendados"/>
+            <column name="id_tipo_resposta" value="1"/>
+        </insert>
+
+        <insert tableName="tb_classificacao_tipo_resposta" schemaName="sdsic">
+            <column name="id_classificacao_tipo_resposta" value="4"/>
+            <column name="ds_classificacao_tipo_resposta"
+                    value="Informações enviadas pelo correios"/>
+            <column name="id_tipo_resposta" value="1"/>
+        </insert>
+
+        <insert tableName="tb_classificacao_tipo_resposta" schemaName="sdsic">
+            <column name="id_classificacao_tipo_resposta" value="5"/>
+            <column name="ds_classificacao_tipo_resposta"
+                    value="Informaçoes enviadas por e-mail"/>
+            <column name="id_tipo_resposta" value="1"/>
+        </insert>
+
+        <insert tableName="tb_classificacao_tipo_resposta" schemaName="sdsic">
+            <column name="id_classificacao_tipo_resposta" value="6"/>
+            <column name="ds_classificacao_tipo_resposta"
+                    value="Orientação sobre como encontrar a informação solicitada na internet como em publicações existentes"/>
+            <column name="id_tipo_resposta" value="1"/>
+        </insert>
+
+        <insert tableName="tb_classificacao_tipo_resposta" schemaName="sdsic">
+            <column name="id_classificacao_tipo_resposta" value="7"/>
+            <column name="ds_classificacao_tipo_resposta"
+                    value="Resposta solicitada inserida no e-sic"/>
+            <column name="id_tipo_resposta" value="1"/>
+        </insert>
+
+        <!--Acesso negado-->
+
+        <insert tableName="tb_classificacao_tipo_resposta" schemaName="sdsic">
+            <column name="id_classificacao_tipo_resposta" value="8"/>
+            <column name="ds_classificacao_tipo_resposta"
+                    value="Dados Pessoais"/>
+            <column name="id_tipo_resposta" value="2"/>
+        </insert>
+
+        <insert tableName="tb_classificacao_tipo_resposta" schemaName="sdsic">
+            <column name="id_classificacao_tipo_resposta" value="9"/>
+            <column name="ds_classificacao_tipo_resposta"
+                    value="Informação sigilosa classificada conforme a lei 12.527/2011"/>
+            <column name="id_tipo_resposta" value="2"/>
+        </insert>
+
+        <insert tableName="tb_classificacao_tipo_resposta" schemaName="sdsic">
+            <column name="id_classificacao_tipo_resposta" value="10"/>
+            <column name="ds_classificacao_tipo_resposta"
+                    value="Informação sigilosa de acordo com legislação específica"/>
+            <column name="id_tipo_resposta" value="2"/>
+        </insert>
+
+        <insert tableName="tb_classificacao_tipo_resposta" schemaName="sdsic">
+            <column name="id_classificacao_tipo_resposta" value="11"/>
+            <column name="ds_classificacao_tipo_resposta"
+                    value="Pedido desproporcional ao desarrazoado"/>
+            <column name="id_tipo_resposta" value="2"/>
+        </insert>
+
+        <insert tableName="tb_classificacao_tipo_resposta" schemaName="sdsic">
+            <column name="id_classificacao_tipo_resposta" value="12"/>
+            <column name="ds_classificacao_tipo_resposta"
+                    value="Pedido exige tratamento adicional de dados "/>
+            <column name="id_tipo_resposta" value="2"/>
+        </insert>
+
+        <insert tableName="tb_classificacao_tipo_resposta" schemaName="sdsic">
+            <column name="id_classificacao_tipo_resposta" value="13"/>
+            <column name="ds_classificacao_tipo_resposta"
+                    value=" pedido genéricos"/>
+            <column name="id_tipo_resposta" value="2"/>
+        </insert>
+
+        <insert tableName="tb_classificacao_tipo_resposta" schemaName="sdsic">
+            <column name="id_classificacao_tipo_resposta" value="14"/>
+            <column name="ds_classificacao_tipo_resposta"
+                    value="pedido incompreensível"/>
+            <column name="id_tipo_resposta" value="2"/>
+        </insert>
+
+        <insert tableName="tb_classificacao_tipo_resposta" schemaName="sdsic">
+            <column name="id_classificacao_tipo_resposta" value="15"/>
+            <column name="ds_classificacao_tipo_resposta"
+                    value="Processo decisório em curso"/>
+            <column name="id_tipo_resposta" value="2"/>
+        </insert>
+
+
+        <!--Acesso Parcialmente Concedido-->
+
+        <insert tableName="tb_classificacao_tipo_resposta" schemaName="sdsic">
+            <column name="id_classificacao_tipo_resposta" value="16"/>
+            <column name="ds_classificacao_tipo_resposta"
+                    value="Parte da informação contém dados pessoais"/>
+            <column name="id_tipo_resposta" value="3"/>
+        </insert>
+
+        <insert tableName="tb_classificacao_tipo_resposta" schemaName="sdsic">
+            <column name="id_classificacao_tipo_resposta" value="17"/>
+            <column name="ds_classificacao_tipo_resposta"
+                    value="Parte da informação demandará mais tempo para produção"/>
+            <column name="id_tipo_resposta" value="3"/>
+        </insert>
+
+        <insert tableName="tb_classificacao_tipo_resposta" schemaName="sdsic">
+            <column name="id_classificacao_tipo_resposta" value="18"/>
+            <column name="ds_classificacao_tipo_resposta"
+                    value="Parte da Informação é de competência de outro órgão/entidade"/>
+            <column name="id_tipo_resposta" value="3"/>
+        </insert>
+
+        <insert tableName="tb_classificacao_tipo_resposta" schemaName="sdsic">
+            <column name="id_classificacao_tipo_resposta" value="19"/>
+            <column name="ds_classificacao_tipo_resposta"
+                    value="Parte da informação é sigilosa de acordo com legilação específica"/>
+            <column name="id_tipo_resposta" value="3"/>
+        </insert>
+
+        <insert tableName="tb_classificacao_tipo_resposta" schemaName="sdsic">
+            <column name="id_classificacao_tipo_resposta" value="20"/>
+            <column name="ds_classificacao_tipo_resposta"
+                    value="Parte da informação é sigilosa conforme a lei 12.527/2011"/>
+            <column name="id_tipo_resposta" value="3"/>
+        </insert>
+
+        <insert tableName="tb_classificacao_tipo_resposta" schemaName="sdsic">
+            <column name="id_classificacao_tipo_resposta" value="21"/>
+            <column name="ds_classificacao_tipo_resposta"
+                    value="Parte da informação é inexistente"/>
+            <column name="id_tipo_resposta" value="3"/>
+        </insert>
+
+        <insert tableName="tb_classificacao_tipo_resposta" schemaName="sdsic">
+            <column name="id_classificacao_tipo_resposta" value="22"/>
+            <column name="ds_classificacao_tipo_resposta"
+                    value="parte do pedido é desproporcional ao desarrazoado"/>
+            <column name="id_tipo_resposta" value="3"/>
+        </insert>
+
+        <insert tableName="tb_classificacao_tipo_resposta" schemaName="sdsic">
+            <column name="id_classificacao_tipo_resposta" value="23"/>
+            <column name="ds_classificacao_tipo_resposta"
+                    value="Parte do pedido é genérico"/>
+            <column name="id_tipo_resposta" value="3"/>
+        </insert>
+
+        <insert tableName="tb_classificacao_tipo_resposta" schemaName="sdsic">
+            <column name="id_classificacao_tipo_resposta" value="24"/>
+            <column name="ds_classificacao_tipo_resposta"
+                    value="Parte é incompreensível"/>
+            <column name="id_tipo_resposta" value="3"/>
+        </insert>
+
+        <insert tableName="tb_classificacao_tipo_resposta" schemaName="sdsic">
+            <column name="id_classificacao_tipo_resposta" value="25"/>
+            <column name="ds_classificacao_tipo_resposta"
+                    value="processo decisório em curso"/>
+            <column name="id_tipo_resposta" value="3"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="giovane.oliveira" id="1.06.06">
+        <createTable schemaName="sdsic" tableName="tb_classificar_resposta_sic">
+            <column name="id_classificar_resposta_sic" type="bigint">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="id_categoria" type="bigint"/>
+            <column name="id_sub_categoria" type="bigint"/>
+            <column name="id_tipo_resposta" type="bigint"/>
+            <column name="id_classificacao_tipo_resposta" type="bigint"/>
+            <column name="ds_palavra_chave" type="varchar(255)"/>
+            <column name="st_restricao_conteudo" type="boolean"/>
+            <column name="num_pagina" type="Bigint"/>
+
+        </createTable>
+        <addForeignKeyConstraint baseTableName="tb_classificar_resposta_sic"
+                                 baseColumnNames="id_classificacao_tipo_resposta"
+                                 constraintName="fk_tb_classificacao_tipo_resposta"
+                                 referencedTableName="tb_classificacao_tipo_resposta"
+                                 referencedColumnNames="id_classificacao_tipo_resposta"/>
+
+        <addForeignKeyConstraint baseTableName="tb_classificar_resposta_sic"
+                                 baseColumnNames="id_tipo_resposta"
+                                 constraintName="fk_tb_tipo_resposta"
+                                 referencedTableName="tb_tipo_resposta"
+                                 referencedColumnNames="id_tipo_resposta"/>
+
+        <addForeignKeyConstraint baseTableName="tb_classificar_resposta_sic"
+                                 baseColumnNames="id_categoria"
+                                 constraintName="fk_tb_categoria"
+                                 referencedTableName="tb_categoria"
+                                 referencedColumnNames="id_categoria"/>
+
+        <addForeignKeyConstraint baseTableName="tb_classificar_resposta_sic"
+                                 baseColumnNames="id_sub_categoria"
+                                 constraintName="fk_tb_categoria_subcategoria"
+                                 referencedTableName="tb_sub_categoria"
+                                 referencedColumnNames="id_sub_categoria"/>
+
+        <createSequence sequenceName="seq_tb_classificar_resposta_sic"
+                        schemaName="sdsic" startValue="1" incrementBy="1"/>
+
+    </changeSet>
+
+    <changeSet author="giovane.oliveira" id="1.06.07">
+    <createTable schemaName="sdsic" tableName="tb_palavra_chave">
+        <column name="id_palavra_chave" type="bigint">
+            <constraints nullable="false" primaryKey="true"/>
+        </column>
+        <column name="ds_palavra_chave" type="varchar"/>
+    </createTable>
+    </changeSet>
+
+    <changeSet author="giovane.oliveira" id="1.03.08">
+        <dropColumn columnName="ds_palavra_chave"
+                    schemaName="sdsic"
+                    tableName="tb_classificar_resposta_sic"/>
+    </changeSet>
+
+
+    <changeSet id="1.06.09" author="giovane.oliveira">
+        <createTable schemaName="sdsic" tableName="tb_classificacao_palavra_chave">
+            <column name="id_classificar_resposta_sic" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="id_palavra_chave" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="tb_classificacao_palavra_chave"
+                baseColumnNames="id_classificar_resposta_sic"
+                constraintName="fk_id_classificar_resposta_sic"
+                referencedTableName="tb_classificar_resposta_sic"
+                referencedColumnNames="id_classificar_resposta_sic"/>
+        <addForeignKeyConstraint
+                baseTableName="tb_classificacao_palavra_chave"
+                baseColumnNames="id_palavra_chave"
+                constraintName="fk_id_palavra_chave"
+                referencedTableName="tb_palavra_chave"
+                referencedColumnNames="id_palavra_chave"/>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.06.10">
+        <update schemaName="sdsic"
+                tableName="tb_status_solicitacao">
+            <column name="nm_nome" value="Resposta Assinada"/>
+            <where>id_status_solicitacao = 6</where>
+        </update>
+    </changeSet>
+
+
+    <changeSet id="1.06.11" author="giovane.oliveira">
+        <addColumn schemaName="sdsic" tableName="tb_pedido">
+            <column name="id_classificar_resposta_sic" type="bigint"/>
+        </addColumn>
+        <addForeignKeyConstraint
+                baseTableName="tb_pedido"
+                baseColumnNames="id_classificar_resposta_sic"
+                constraintName="fk_id_pedido_classificar_resposta_sic"
+                referencedTableName="tb_classificar_resposta_sic"
+                referencedColumnNames="id_classificar_resposta_sic"/>
+
+        <createSequence sequenceName="seq_tb_palavra_chave"
+                        schemaName="sdsic" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.06.12">
+        <dropColumn columnName="co_unidade"
+                    schemaName="sdsic"
+                    tableName="tb_unidade"/>
+        <dropColumn columnName="no_unidade"
+                    schemaName="sdsic"
+                    tableName="tb_unidade"/>
+        <addColumn schemaName="sdsic"
+                   tableName="tb_unidade">
+            <column name="cd_codigo_unidade" type="varchar"/>
+        </addColumn>
+        <addColumn schemaName="sdsic"
+                   tableName="tb_unidade">
+            <column name="nm_nome_unidade" type="varchar">
+                <constraints unique="true"/>
+            </column>
+        </addColumn>
+        <addColumn schemaName="sdsic"
+                   tableName="tb_unidade">
+            <column name="sg_sigla_unidade" type="varchar"/>
+        </addColumn>
+        <createSequence sequenceName="seq_tb_unidade"
+                        schemaName="sdsic" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet id="1.06.13" author="jean.reis">
+        <createTable schemaName="sdsic" tableName="tb_subunidade">
+            <column name="id_subunidade" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="cd_codigo_subunidade" type="varchar"/>
+            <column name="nm_nome_subunidade" type="varchar"/>
+            <column name="sg_sigla_subunidade" type="varchar"/>
+            <column name="id_unidade" type="bigint"/>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="tb_subunidade"
+                baseColumnNames="id_unidade"
+                constraintName="fk_tb_unidade"
+                referencedTableName="tb_unidade"
+                referencedColumnNames="id_unidade"/>
+        <createSequence sequenceName="seq_tb_subunidade"
+                        schemaName="sdsic" startValue="1" incrementBy="1"/>
+    </changeSet>
+</databaseChangeLog>

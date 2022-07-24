@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="giovane.oliveira" id="1.07.01">
+        <dropForeignKeyConstraint baseTableName="tb_classificacao_palavra_chave"
+                                  constraintName="fk_id_classificar_resposta_sic"/>
+        <dropForeignKeyConstraint baseTableName="tb_classificacao_palavra_chave" constraintName="fk_id_palavra_chave"/>
+        <dropTable schemaName="sdsic"
+                   tableName="tb_classificacao_palavra_chave"/>
+    </changeSet>
+
+    <changeSet author="giovane.oliveira" id="1.07.02">
+        <createTable schemaName="sdsic" tableName="tb_tema">
+            <column name="id_tema" type="bigint">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="nm_tema" type="varchar"/>
+        </createTable>
+        <createSequence sequenceName="seq_tb_tema"
+                        schemaName="sdsic" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="giovane.oliveira" id="1.07.03">
+        <createTable tableName="tb_subtema">
+            <column name="id_subtema" type="bigint">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="nm_subtema" type="varchar"/>
+            <column name="id_tema" type="bigint"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="tb_subtema"
+                                 baseColumnNames="id_tema"
+                                 constraintName="fk_tb_tema_subtema"
+                                 referencedTableName="tb_tema"
+                                 referencedColumnNames="id_tema"/>
+
+        <createSequence sequenceName="seq_tb_subtema"
+                        schemaName="sdsic" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="giovane.oliveira" id="1.07.04">
+        <createTable tableName="tb_subtema_palavra_chave">
+            <column name="id_subtema" type="bigint"/>
+            <column name="id_palavra_chave" type="bigint"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="tb_subtema_palavra_chave"
+                                 baseColumnNames="id_subtema"
+                                 constraintName="fk_id_subtema"
+                                 referencedTableName="tb_subtema"
+                                 referencedColumnNames="id_subtema"/>
+
+        <addForeignKeyConstraint baseTableName="tb_subtema_palavra_chave"
+                                 baseColumnNames="id_palavra_chave"
+                                 constraintName="fk_id_palavra_chave"
+                                 referencedTableName="tb_palavra_chave"
+                                 referencedColumnNames="id_palavra_chave"/>
+    </changeSet>
+
+    <changeSet author="giovane.oliveira" id="1.07.05">
+        <addColumn schemaName="sdsic" tableName="tb_pedido">
+            <column name="id_tema" type="bigint"/>
+        </addColumn>
+        <addForeignKeyConstraint
+                baseTableName="tb_pedido"
+                baseColumnNames="id_tema"
+                constraintName="fk_id_pedido_tema"
+                referencedTableName="tb_tema"
+                referencedColumnNames="id_tema"/>
+    </changeSet>
+
+    <changeSet author="giovane.oliveira" id="1.07.06">
+        <update tableName="tb_tema"
+                schemaName="sdsic">
+            <column name="id_tema" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </update>
+    </changeSet>
+
+    <changeSet author="giovane.oliveira" id="1.07.07">
+    <delete tableName="tb_tipo_manifestacao"
+                schemaName="sdsic">
+        <where> id_tipo_manifestacao = 6 </where>
+    </delete>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.07.08">
+        <createTable tableName="tb_usuario_acessos">
+            <column name="id_usuario_acessos" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="nm_nome_usuario" type="varchar"/>
+            <column name="cd_codigo_usuario" type="varchar"/>
+            <column name="id_subunidade" type="bigint"/>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="tb_usuario_acessos"
+                baseColumnNames="id_subunidade"
+                constraintName="fk_subunidade"
+                referencedTableName="tb_subunidade"
+                referencedColumnNames="id_subunidade"/>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.07.09">
+        <dropTable schemaName="sdsic"
+                   tableName="tb_usuario_acessos"/>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.07.10">
+        <createTable tableName="tb_usuario_acessos">
+            <column name="id_usuario_acessos" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="nm_nome_usuario" type="varchar"/>
+            <column name="cd_codigo_usuario" type="varchar"/>
+            <column name="id_subunidade" type="bigint"/>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="tb_usuario_acessos"
+                baseColumnNames="id_subunidade"
+                constraintName="fk_subunidade"
+                referencedTableName="tb_subunidade"
+                referencedColumnNames="id_subunidade"/>
+        <createSequence sequenceName="seq_tb_usuario_acessos"
+                        schemaName="sdsic" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.07.11">
+        <addColumn schemaName="sdsic" tableName="tb_usuario_acessos">
+            <column name="cd_cpf" type="varchar(11)"/>
+            <column name="ds_email_usuario" type="varchar"/>
+            <column name="num_telefone_usuario" type="varchar"/>
+            <column name="ds_perfil_usuario" type="varchar"/>
+            <column name="ds_cargo" type="varchar(120)"/>
+            <column name="ds_funcao" type="varchar(120)"/>
+            <column name="ds_assinatura" type="varchar(100)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.07.12">
+        <addColumn schemaName="sdsic" tableName="tb_subunidade">
+            <column name="st_status_subunidade" type="boolean"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

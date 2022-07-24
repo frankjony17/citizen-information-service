@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+
+    <changeSet  author="giovane.oliveira" id="1.04.01">
+        <createTable schemaName="sdsic" tableName="tb_feriado">
+            <column name="id_feriado" type="bigint">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="dt_feriado" type="timestamp"/>
+            <column name="nm_feriado" type="varchar(255)"/>
+            <column name="ds_feriado" type="text"/>
+        </createTable>
+        <createSequence sequenceName="seq_tb_feriado"
+                        schemaName="sdsic" startValue="1" incrementBy="1"/>
+
+    </changeSet>
+
+    <changeSet author="giovane.oliveir" id="1.04.02">
+        <addColumn schemaName="sdsic"
+                   tableName="tb_feriado">
+            <column name="dt_ano" type="bigint"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="giovane.oliveira" id="1.04.03">
+        <addColumn schemaName="sdsic"
+                   tableName="tb_pedido">
+            <column name="is_eouv" type="boolean"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.04.04">
+        <addColumn schemaName="sdsic"
+                   tableName="tb_pedido">
+            <column name="is_devolver" type="boolean"/>
+        </addColumn>
+    </changeSet>
+
+
+</databaseChangeLog>

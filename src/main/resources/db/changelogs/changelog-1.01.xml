@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+
+
+    <changeSet id="1.01.01" author="giovane.oliveira">
+        <createTable schemaName="fks" tableName="tb_solicitante">
+            <column name="id_solicitante" type="bigint">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="tp_tipo_nome" type="varchar(2)"/>
+            <column name="nm_nome" type="varchar(100)"/>
+            <column name="cd_cpf" type="varchar(11)"/>
+            <column name="ds_documento_identificacao" type="varchar(50)"/>
+            <column name="sg_sexo" type="varchar(1)"/>
+            <column name="ds_profissao" type="varchar(30)"/>
+            <column name="ds_email" type="varchar(50)"/>
+            <column name="num_ddd" type="varchar(2)"/>
+            <column name="num_telefone" type="varchar(11)"/>
+            <column name="ed_endereco" type="varchar(200)"/>
+            <column name="sg_uf" type="varchar(2)"/>
+            <column name="ed_pais" type="varchar(20)"/>
+            <column name="ed_cidade" type="varchar(30)"/>
+            <column name="ed_cep" type="varchar(8)"/>
+        </createTable>
+        <addPrimaryKey
+                constraintName="fk_tb_solicitante"
+                schemaName="fks"
+                tableName="tb_solicitante"
+                columnNames="id_solicitante" />
+        <createSequence sequenceName="seq_tb_solicitante"
+                        schemaName="fks" startValue="1" incrementBy="1"/>
+
+    </changeSet>
+
+    <changeSet author="giovane.oliveira" id="1.01.02">
+        <createTable schemaName="fks" tableName="tb_pedido">
+            <column name="id_pedido" type="bigint">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="fk_solicitante" type="bigint">
+                <constraints unique="true" nullable="false" />
+            </column>
+
+            <column name="cd_protocolo" type="varchar(50)"/>
+            <column name="dt_data_registro" type="date"/>
+            <column name="ds_descricao" type="varchar(100)"/>
+            <column name="cd_codigo_siorg_orgao_superior" type="varchar(100)"/>
+            <column name="nm_orgao_superior" type="varchar(50)"/>
+            <column name="nm_orgao_vinculado" type="varchar(50)"/>
+            <column name="dt_prazo_atendimento" type="date"/>
+            <column name="ds_forma_recebimento" type="varchar(50)"/>
+            <column name="st_situacao" type="varchar(1)"/>
+            <column name="st_situacao_status" type="varchar(50)"/>
+            <column name="st_em_atendimento" type="varchar(1)"/>
+            <column name="qt_quantidade_anexo" type="bigint"/>
+            <column name="dt_data_ultimo_reencaminham" type="date"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="tb_pedido"
+                                 baseColumnNames="fk_solicitante"
+                                 constraintName="fk_tb_solicitante"
+                                 referencedTableName="tb_solicitante"
+                                 referencedColumnNames="id_solicitante"/>
+        <createSequence sequenceName="seq_tb_pedido"
+                        schemaName="fks" startValue="1" incrementBy="1"/>
+
+    </changeSet>
+
+    <changeSet author="frank.ramirez" id="1.01.03">
+        <createTable schemaName="fks" tableName="tb_orgao_siorg">
+            <column name="id_orgao_siorg" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="co_codigo_orgao_siorg" type="varchar(10)">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="nm_nome_orgao_siorg" type="varchar(100)">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="sg_sigla_orgao_siorg" type="varchar(10)">
+                <constraints nullable="false" />
+            </column>
+            <column name="st_status_orgao" type="boolean">
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+        <createSequence sequenceName="seq_tb_orgao_siorg"
+                        schemaName="fks" startValue="2" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="giovane.oliveira" id="1.01.04">
+        <createTable schemaName="fks" tableName="tb_unidade">
+            <column name="id_unidade" type="bigint">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="co_unidade" type="bigint">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="no_unidade" type="varchar(100)">
+                <constraints nullable="true" />
+            </column>
+            <column name="id_orgao_siorg" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey
+                constraintName="pk_unidade"
+                schemaName="fks"
+                tableName="tb_unidade"
+                columnNames="id_unidade" />
+        <addForeignKeyConstraint
+                baseTableName="tb_unidade"
+                baseColumnNames="id_orgao_siorg"
+                constraintName="fk_orgao_siorg"
+                referencedTableName="tb_orgao_siorg"
+                referencedColumnNames="id_orgao_siorg"/>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.01.05">
+        <dropForeignKeyConstraint baseTableName="tb_pedido" constraintName="fk_tb_solicitante"/>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.01.06">
+        <dropTable schemaName="fks"
+                   tableName="tb_solicitante"/>
+        <dropTable schemaName="fks"
+                   tableName="tb_pedido"/>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.01.07">
+        <dropSequence schemaName="fks"
+                      sequenceName="seq_tb_solicitante"/>
+        <dropSequence schemaName="fks"
+                      sequenceName="seq_tb_pedido"/>
+    </changeSet>
+
+    <changeSet id="1.01.08" author="jean.reis">
+        <createTable schemaName="fks" tableName="tb_solicitante">
+            <column name="id_solicitante" type="bigint">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="tp_tipo_nome" type="varchar(1)"/>
+            <column name="nm_nome" type="varchar(200)"/>
+            <column name="cd_cpf" type="varchar(14)"/>
+            <column name="ds_documento_identificacao" type="varchar(20)"/>
+            <column name="sg_sexo" type="varchar(1)"/>
+            <column name="ds_profissao" type="varchar(200)"/>
+            <column name="ds_email" type="varchar(200)"/>
+            <column name="num_ddd" type="varchar(2)"/>
+            <column name="num_telefone" type="varchar(20)"/>
+            <column name="ed_endereco" type="text"/>
+            <column name="sg_uf" type="varchar(2)"/>
+            <column name="ed_pais" type="varchar(200)"/>
+            <column name="ed_cidade" type="varchar(200)"/>
+            <column name="ed_cep" type="varchar(9)"/>
+        </createTable>
+        <addPrimaryKey
+                constraintName="fk_tb_solicitante"
+                schemaName="fks"
+                tableName="tb_solicitante"
+                columnNames="id_solicitante" />
+        <createSequence sequenceName="seq_tb_solicitante"
+                        schemaName="fks" startValue="1" incrementBy="1"/>
+
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.01.09">
+        <createTable schemaName="fks" tableName="tb_pedido">
+            <column name="id_pedido" type="bigint">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="id_solicitante" type="bigint"/>
+            <column name="cd_protocolo" type="varchar(20)"/>
+            <column name="dt_data_registro" type="date"/>
+            <column name="ds_descricao" type="text"/>
+            <column name="cd_codigo_siorg_orgao_superior" type="varchar(20)"/>
+            <column name="nm_orgao_superior" type="varchar(250)"/>
+            <column name="nm_orgao_vinculado" type="varchar(50)"/>
+            <column name="dt_prazo_atendimento" type="date"/>
+            <column name="ds_forma_recebimento" type="varchar(40)"/>
+            <column name="st_situacao" type="varchar(40)"/>
+            <column name="st_situacao_status" type="varchar(200)"/>
+            <column name="st_em_atendimento" type="varchar(1)"/>
+            <column name="qt_quantidade_anexo" type="bigint"/>
+            <column name="dt_data_ultimo_reencaminham" type="date"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="tb_pedido"
+                                 baseColumnNames="id_solicitante"
+                                 constraintName="fk_tb_solicitante"
+                                 referencedTableName="tb_solicitante"
+                                 referencedColumnNames="id_solicitante"/>
+        <createSequence sequenceName="seq_tb_pedido"
+                        schemaName="fks" startValue="1" incrementBy="1"/>
+
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.01.10">
+        <createTable schemaName="fks" tableName="tb_status_tramitacao">
+            <column name="id_status_tramitacao" type="bigint">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="nm_nome" type="varchar(255)"/>
+        </createTable>
+        <createSequence sequenceName="seq_tb_status_tramitacao"
+                        schemaName="fks" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.01.11">
+        <createTable schemaName="fks" tableName="tb_status_solicitacao">
+            <column name="id_status_solicitacao" type="bigint">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="nm_nome" type="varchar(255)"/>
+        </createTable>
+        <createSequence sequenceName="seq_tb_status_solicitacao"
+                        schemaName="fks" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.01.12">
+        <createTable schemaName="fks" tableName="tb_situacao_pedido">
+            <column name="id_situacao_pedido" type="bigint">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="nm_nome" type="varchar(255)"/>
+        </createTable>
+        <createSequence sequenceName="seq_tb_situacao_pedido"
+                        schemaName="fks" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.01.13">
+        <addColumn schemaName="fks"
+                   tableName="tb_pedido">
+            <column name="id_status_tramitacao" type="bigint"/>
+        </addColumn>
+        <addColumn schemaName="fks"
+                   tableName="tb_pedido">
+            <column name="id_status_solicitacao" type="bigint"/>
+        </addColumn>
+        <addColumn schemaName="fks"
+                   tableName="tb_pedido">
+            <column name="id_situacao_pedido" type="bigint"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="jean.reis" author="1.01.14">
+        <addForeignKeyConstraint baseTableName="tb_pedido"
+                                 baseColumnNames="id_status_tramitacao"
+                                 constraintName="fk_tb_status_tramitacao"
+                                 referencedTableName="tb_status_tramitacao"
+                                 referencedColumnNames="id_status_tramitacao"/>
+        <addForeignKeyConstraint baseTableName="tb_pedido"
+                                 baseColumnNames="id_status_solicitacao"
+                                 constraintName="fk_tb_status_solicitacao"
+                                 referencedTableName="tb_status_solicitacao"
+                                 referencedColumnNames="id_status_solicitacao"/>
+        <addForeignKeyConstraint baseTableName="tb_pedido"
+                                 baseColumnNames="id_situacao_pedido"
+                                 constraintName="fk_tb_situacao_pedido"
+                                 referencedTableName="tb_situacao_pedido"
+                                 referencedColumnNames="id_situacao_pedido"/>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.01.15">
+        <insert schemaName="fks"
+                tableName="tb_status_tramitacao">
+            <column name="id_status_tramitacao" value="1"/>
+            <column name="nm_nome" value="SIC"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_status_tramitacao">
+            <column name="id_status_tramitacao" value="2"/>
+            <column name="nm_nome" value="Andamento"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_status_tramitacao">
+            <column name="id_status_tramitacao" value="3"/>
+            <column name="nm_nome" value="Respondidas"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_status_tramitacao">
+            <column name="id_status_tramitacao" value="4"/>
+            <column name="nm_nome" value="Para Revisão"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_status_tramitacao">
+            <column name="id_status_tramitacao" value="5"/>
+            <column name="nm_nome" value="Enviadas"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_status_tramitacao">
+            <column name="id_status_tramitacao" value="6"/>
+            <column name="nm_nome" value="Reencaminhadas"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_status_tramitacao">
+            <column name="id_status_tramitacao" value="7"/>
+            <column name="nm_nome" value="Para Envio"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_status_tramitacao">
+            <column name="id_status_tramitacao" value="8"/>
+            <column name="nm_nome" value="E-Ouv"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.01.16">
+        <dropSequence sequenceName="seq_tb_status_tramitacao"
+                      schemaName="fks"/>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.01.17">
+        <insert schemaName="fks"
+                tableName="tb_status_solicitacao">
+            <column name="id_status_solicitacao" value="1"/>
+            <column name="nm_nome" value="Triagem SIC"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_status_solicitacao">
+            <column name="id_status_solicitacao" value="2"/>
+            <column name="nm_nome" value="Resposta SIC"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_status_solicitacao">
+            <column name="id_status_solicitacao" value="3"/>
+            <column name="nm_nome" value="Distribuição PF"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_status_solicitacao">
+            <column name="id_status_solicitacao" value="4"/>
+            <column name="nm_nome" value="Revisao"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_status_solicitacao">
+            <column name="id_status_solicitacao" value="5"/>
+            <column name="nm_nome" value="Para Envio"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_status_solicitacao">
+            <column name="id_status_solicitacao" value="6"/>
+            <column name="nm_nome" value="Resposta Assinada PF"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_status_solicitacao">
+            <column name="id_status_solicitacao" value="7"/>
+            <column name="nm_nome" value="Produção de Resposta"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_status_solicitacao">
+            <column name="id_status_solicitacao" value="8"/>
+            <column name="nm_nome" value="Edição de técnico"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.01.18">
+        <dropSequence sequenceName="seq_tb_status_solicitacao"
+                      schemaName="fks"/>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.01.19">
+        <insert schemaName="fks"
+                tableName="tb_situacao_pedido">
+            <column name="id_situacao_pedido" value="1"/>
+            <column name="nm_nome" value="Em Tramitação"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_situacao_pedido">
+            <column name="id_situacao_pedido" value="2"/>
+            <column name="nm_nome" value="Respondido"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.01.20">
+        <dropSequence sequenceName="seq_tb_situacao_pedido"
+                      schemaName="fks"/>
+    </changeSet>
+
+    <changeSet author="frank.ramirez" id="1.01.21">
+        <insert schemaName="fks" tableName="tb_orgao_siorg">
+            <column name="id_orgao_siorg" value="1"/>
+            <column name="co_codigo_orgao_siorg" value="235876"/>
+            <column name="nm_nome_orgao_siorg" value="Ministério da Economia"/>
+            <column name="sg_sigla_orgao_siorg" value="ME"/>
+            <column name="st_status_orgao" value="true"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="frank.ricardo" id="1.18.01">
+        <addColumn schemaName="fks"
+                   tableName="tb_classificacao_resposta">
+            <column name="st_status" type="boolean"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="1.18.02" author="maicon.godoy">
+        <createTable schemaName="fks" tableName="tb_andamento_recurso_usuario_acessos">
+            <column name="id_andamento_recurso" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="id_usuario_acessos" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="tb_andamento_recurso_usuario_acessos"
+                baseColumnNames="id_andamento_recurso"
+                constraintName="fk_andamento_recurso"
+                referencedTableName="tb_andamento_recurso"
+                referencedColumnNames="id_andamento_recurso"/>
+        <addForeignKeyConstraint
+                baseTableName="tb_andamento_recurso_usuario_acessos"
+                baseColumnNames="id_usuario_acessos"
+                constraintName="fk_usuario_acessos"
+                referencedTableName="tb_usuario_acessos"
+                referencedColumnNames="id_usuario_acessos"/>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="bruno.mundim" id="1.05.01">
+        <dropTable schemaName="fks" tableName="tb_anexo_pedido" />
+        <dropTable schemaName="fks" tableName="tb_anexo_resposta_fks" />
+
+        <createTable schemaName="fks" tableName="tb_anexo">
+            <column name="id_anexo" type="bigint">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="nm_nome" type="varchar(255)"/>
+            <column name="tp_extensao" type="varchar(255)"/>
+            <column name="num_tamanho" type="decimal"/>
+            <column name="id_pedido" type="bigint"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="tb_anexo"
+                                 baseColumnNames="id_pedido"
+                                 constraintName="fk_tb_pedido"
+                                 referencedTableName="tb_pedido"
+                                 referencedColumnNames="id_pedido"/>
+        <createSequence sequenceName="seq_tb_anexo"
+                        schemaName="fks" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.05.02">
+        <update schemaName="fks"
+                tableName="tb_status_solicitacao">
+            <column name="nm_nome" value="Enviada"/>
+            <where>id_status_solicitacao = 9</where>
+        </update>
+    </changeSet>
+
+    <changeSet author="giovane.oliveira" id="1.05.03">
+        <addColumn schemaName="fks" tableName="tb_pedido">
+            <column name="ds_proposta_resposta"  type="text"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.05.04">
+        <addColumn schemaName="fks" tableName="tb_historico_tratamento">
+            <column name="ds_resposta_pedido"  type="text"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="1.05.05" author="maicon.godoy">
+        <createTable schemaName="fks" tableName="tb_tipo_classificacao_resposta">
+            <column name="id_tipo_classificacao" type="bigint">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="ds_descricao" type="varchar(255)"/>
+        </createTable>
+
+    </changeSet>
+
+
+    <changeSet id="1.05.06" author="maicon.godoy">
+        <createTable schemaName="fks" tableName="tb_classificacao_resposta">
+            <column name="id_classificacao" type="bigint">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="ds_descricao" type="varchar(255)"/>
+            <column name="id_tipo_classificacao" type="bigint"/>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="tb_classificacao_resposta"
+                baseColumnNames="id_tipo_classificacao"
+                constraintName="fk_classificacao_resposta"
+                referencedTableName="tb_tipo_classificacao_resposta"
+                referencedColumnNames="id_tipo_classificacao"/>
+    </changeSet>
+
+
+
+    <changeSet author="maicon.godoy" id="1.05.07">
+        <insert tableName="tb_tipo_classificacao_resposta" schemaName="fks">
+            <column name="id_tipo_classificacao" value="1"/>
+            <column name="ds_descricao" value="Orientações ao solicitante"/>
+        </insert>
+
+        <insert tableName="tb_tipo_classificacao_resposta" schemaName="fks">
+            <column name="id_tipo_classificacao" value="2"/>
+            <column name="ds_descricao" value="Acesso concedido - transparência ativa"/>
+        </insert>
+
+        <insert tableName="tb_tipo_classificacao_resposta" schemaName="fks">
+            <column name="id_tipo_classificacao" value="3"/>
+            <column name="ds_descricao" value="Acesso concedido - transparência passiva"/>
+        </insert>
+
+        <insert tableName="tb_tipo_classificacao_resposta" schemaName="fks">
+            <column name="id_tipo_classificacao" value="4"/>
+            <column name="ds_descricao" value="Acesso negado"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1.05.08" author="giovane.oliveira">
+        <createSequence sequenceName="seq_tb_tipo_classificacao_resposta"
+                        schemaName="fks" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet id="1.05.09" author="jean.reis">
+        <createTable schemaName="fks" tableName="tb_pedido_classificacao_resp">
+            <column name="id_pedido" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="id_classificacao" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="tb_pedido_classificacao_resp"
+                baseColumnNames="id_pedido"
+                constraintName="fk_id_pedido"
+                referencedTableName="tb_pedido"
+                referencedColumnNames="id_pedido"/>
+        <addForeignKeyConstraint
+                baseTableName="tb_pedido_classificacao_resp"
+                baseColumnNames="id_classificacao"
+                constraintName="fk_classificacao_resposta"
+                referencedTableName="tb_classificacao_resposta"
+                referencedColumnNames="id_classificacao"/>
+    </changeSet>
+
+</databaseChangeLog>

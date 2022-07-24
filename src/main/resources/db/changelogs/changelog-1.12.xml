@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="1.12.01" author="jean.reis">
+        <insert schemaName="fks"
+                tableName="tb_situacao_pedido">
+            <column name="id_situacao_pedido" value="3"/>
+            <column name="nm_nome" value="Reencaminhado"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1.12.02" author="jean.reis">
+        <insert schemaName="fks"
+                tableName="tb_status_solicitacao">
+            <column name="id_status_solicitacao" value="11"/>
+            <column name="nm_nome" value="Sugestão de Reencaminhamento"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1.12.03" author="giovane.oliveira">
+        <createTable tableName="tb_eouv_palavra_chave" schemaName="fks">
+            <column name="id_eouv" type="bigint"/>
+            <column name="id_palavra_chave" type="bigint"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="tb_eouv_palavra_chave"
+                                 baseColumnNames="id_eouv"
+                                 constraintName="fk_id_eouv_palavra_chave"
+                                 referencedTableName="tb_eouv"
+                                 referencedColumnNames="id_eouv"/>
+
+        <addForeignKeyConstraint baseTableName="tb_eouv_palavra_chave"
+                                 baseColumnNames="id_palavra_chave"
+                                 constraintName="fk_id_palavra_chave"
+                                 referencedTableName="tb_palavra_chave"
+                                 referencedColumnNames="id_palavra_chave"/>
+    </changeSet>
+
+    <changeSet id="1.12.04" author="jean.reis">
+        <addColumn schemaName="fks"
+                   tableName="tb_andamento">
+            <column name="st_resposta_assinada" type="boolean"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="1.12.05" author="jean.reis">
+        <dropColumn columnName="nm_unidade"
+                    schemaName="fks"
+                    tableName="tb_andamento"/>
+        <addColumn schemaName="fks"
+                   tableName="tb_andamento">
+            <column name="id_unidade" type="bigint"/>
+        </addColumn>
+        <addColumn schemaName="fks"
+                   tableName="tb_andamento">
+            <column name="id_subunidade" type="bigint"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

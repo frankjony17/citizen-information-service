@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="giovane.oliveira" id="1.11.01">
+            <createTable schemaName="sdsic" tableName="tb_status_situacao">
+                <column name="id_status_situacao" type="bigint">
+                    <constraints unique="true" nullable="false" />
+                </column>
+                <column name="nm_situacao" type="varchar(255)"/>
+            </createTable>
+            <createSequence sequenceName="seq_tb_status_situacao"
+                            schemaName="sdsic" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+
+    <changeSet author="giovane.oliveira" id="1.11.02">
+        <insert schemaName="sdsic"
+                tableName="tb_status_situacao">
+            <column name="id_status_situacao" value="1"/>
+            <column name="nm_situacao" value="Acesso concedido"/>
+        </insert>
+        <insert schemaName="sdsic"
+                tableName="tb_status_situacao">
+            <column name="id_status_situacao" value="2"/>
+            <column name="nm_situacao" value="Acesso negado"/>
+        </insert>
+
+        <insert schemaName="sdsic"
+                tableName="tb_status_situacao">
+            <column name="id_status_situacao" value="3"/>
+            <column name="nm_situacao" value="Acesso parcialmente concedido"/>
+        </insert>
+
+        <insert schemaName="sdsic"
+                tableName="tb_status_situacao">
+            <column name="id_status_situacao" value="4"/>
+            <column name="nm_situacao" value="Informação inexistente"/>
+        </insert>
+
+        <insert schemaName="sdsic"
+                tableName="tb_status_situacao">
+            <column name="id_status_situacao" value="5"/>
+            <column name="nm_situacao" value="Não se trata de solicitação de informação"/>
+        </insert>
+
+        <insert schemaName="sdsic"
+                tableName="tb_status_situacao">
+            <column name="id_status_situacao" value="6"/>
+            <column name="nm_situacao" value="Órgão não tem competência para responder sobre o assunto"/>
+        </insert>
+
+        <insert schemaName="sdsic"
+                tableName="tb_status_situacao">
+            <column name="id_status_situacao" value="7"/>
+            <column name="nm_situacao" value="Pergunta duplicada/repetida"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1.11.03" author="jean.reis">
+        <createTable schemaName="sdsic" tableName="tb_andamento_unidade">
+            <column name="id_andamento" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="id_unidade" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="tb_andamento_unidade"
+                baseColumnNames="id_andamento"
+                constraintName="fk_andamento"
+                referencedTableName="tb_andamento"
+                referencedColumnNames="id_andamento"/>
+        <addForeignKeyConstraint
+                baseTableName="tb_andamento_unidade"
+                baseColumnNames="id_unidade"
+                constraintName="fk_unidade"
+                referencedTableName="tb_unidade"
+                referencedColumnNames="id_unidade"/>
+    </changeSet>
+
+    <changeSet id="1.11.04" author="jean.reis">
+        <createTable schemaName="sdsic" tableName="tb_andamento_subunidade">
+            <column name="id_andamento" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="id_subunidade" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="tb_andamento_subunidade"
+                baseColumnNames="id_andamento"
+                constraintName="fk_andamento"
+                referencedTableName="tb_andamento"
+                referencedColumnNames="id_andamento"/>
+        <addForeignKeyConstraint
+                baseTableName="tb_andamento_subunidade"
+                baseColumnNames="id_subunidade"
+                constraintName="fk_subunidade"
+                referencedTableName="tb_subunidade"
+                referencedColumnNames="id_subunidade"/>
+    </changeSet>
+
+    <changeSet id="1.11.05" author="jean.reis">
+        <createTable schemaName="sdsic" tableName="tb_andamento_usuario_acessos">
+            <column name="id_andamento" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="id_usuario_acessos" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="tb_andamento_usuario_acessos"
+                baseColumnNames="id_andamento"
+                constraintName="fk_andamento"
+                referencedTableName="tb_andamento"
+                referencedColumnNames="id_andamento"/>
+        <addForeignKeyConstraint
+                baseTableName="tb_andamento_usuario_acessos"
+                baseColumnNames="id_usuario_acessos"
+                constraintName="fk_usuario_acessos"
+                referencedTableName="tb_usuario_acessos"
+                referencedColumnNames="id_usuario_acessos"/>
+    </changeSet>
+
+    <changeSet id="1.11.05" author="giovane.oliveira">
+        <insert schemaName="sdsic"
+                tableName="tb_status_situacao">
+            <column name="id_status_situacao" value="8"/>
+            <column name="nm_situacao" value="Pedido em andamento"/>
+        </insert>
+
+        <insert schemaName="sdsic"
+                tableName="tb_status_situacao">
+            <column name="id_status_situacao" value="9"/>
+            <column name="nm_situacao" value="Pedido prorrogado"/>
+        </insert>
+
+        <insert schemaName="sdsic"
+                tableName="tb_status_situacao">
+            <column name="id_status_situacao" value="10"/>
+            <column name="nm_situacao" value="Pedido reencaminhado"/>
+        </insert>
+
+        <insert schemaName="sdsic"
+                tableName="tb_status_situacao">
+            <column name="id_status_situacao" value="11"/>
+            <column name="nm_situacao" value="Pedido Registrado"/>
+        </insert>
+
+
+    </changeSet>
+
+    <changeSet id="1.11.06" author="giovane.oliveira">
+        <addColumn schemaName="SDSIC" tableName="tb_pedido">
+            <column name="id_status_situacao" type="bigint"/>
+        </addColumn>
+        <addForeignKeyConstraint baseTableName="tb_pedido"
+                                 baseColumnNames="id_status_situacao"
+                                 constraintName="fk_tb_status_situacao"
+                                 referencedTableName="tb_status_situacao"
+                                 referencedColumnNames="id_status_situacao"/>
+    </changeSet>
+
+    <changeSet id="1.11.07" author="jean.reis">
+        <insert schemaName="sdsic"
+                tableName="tb_unidade">
+            <column name="id_unidade" value="1"/>
+            <column name="cd_codigo_unidade" value="0000"/>
+            <column name="nm_nome_unidade" value="SIC"/>
+            <column name="st_status_unidade" value="true"/>
+            <column name="id_orgao_siorg" value="1"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1.11.08" author="jean.reis">
+        <addColumn schemaName="sdsic" tableName="tb_usuario_acessos">
+            <column name="id_unidade" type="bigint"/>
+        </addColumn>
+        <addForeignKeyConstraint baseTableName="tb_usuario_acessos"
+                                 baseColumnNames="id_unidade"
+                                 constraintName="fk_tb_unidade"
+                                 referencedTableName="tb_unidade"
+                                 referencedColumnNames="id_unidade"/>
+    </changeSet>
+
+    <changeSet id="1.11.09" author="giovane.oliveira">
+        <addColumn schemaName="sdsic"
+                   tableName="tb_pedido">
+            <column name="is_classificacao_resposta" type="boolean"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="1.11.10" author="giovane.oliveira">
+        <addColumn schemaName="sdsic"
+                   tableName="tb_pedido">
+            <column name="is_classificacao_resposta_sic" type="boolean"/>
+        </addColumn>
+    </changeSet>
+
+
+</databaseChangeLog>

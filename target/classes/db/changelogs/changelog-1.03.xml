@@ -1,0 +1,1736 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="pedro.ramalho" id="1.03.01">
+        <insert schemaName="sdsic"
+                tableName="tb_status_solicitacao">
+            <column name="id_status_solicitacao" value="9"/>
+            <column name="nm_nome" value="Respondidas"/>
+        </insert>
+        <insert schemaName="sdsic"
+                tableName="tb_status_solicitacao">
+            <column name="id_status_solicitacao" value="10"/>
+            <column name="nm_nome" value="Reencaminhadas"/>
+        </insert>
+    </changeSet>
+
+    <changeSet  author="giovane.oliveira" id="1.03.02">
+        <createTable schemaName="sdsic" tableName="tb_orgao">
+            <column name="id_orgao" type="bigint">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="nm_orgao" type="varchar(255)"/>
+        </createTable>
+
+    </changeSet>
+
+    <changeSet author="giovane.oliveira" id="1.03.03">
+        <createTable schemaName="sdsic" tableName="tb_reencaminhar_solicitacao">
+            <column name="id_reencaminhar_solicitacao" type="bigint">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="id_pedido" type="bigint"/>
+            <column name="id_orgao" type="bigint"/>
+            <column name="notificacao_enviada_destinatario" type="text"/>
+            <column name="notificacao_enviada_solicitante" type="text"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="tb_reencaminhar_solicitacao"
+                                 baseColumnNames="id_pedido"
+                                 constraintName="fk_tb_pedido"
+                                 referencedTableName="tb_pedido"
+                                 referencedColumnNames="id_pedido"/>
+        <addForeignKeyConstraint baseTableName="tb_reencaminhar_solicitacao"
+                                 baseColumnNames="id_orgao" constraintName="fk_tb_orgao"
+                                 referencedTableName="tb_orgao"
+                                 referencedColumnNames="id_orgao"/>
+        <createSequence sequenceName="seq_tb_reencaminhar_solicitacao"
+                        schemaName="sdsic" startValue="1" incrementBy="1"/>
+
+    </changeSet>
+
+    <changeSet  author="giovane.oliveira" id="1.03.04">
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="1"/>
+            <column name="nm_orgao" value="ABGF - Agencia Brasileira Gestora de Fundos Garantidores e Garantias S.A."/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="2"/>
+            <column name="nm_orgao" value="AEB – Agência Espacial Brasileira"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="3"/>
+            <column name="nm_orgao" value="AGU – Advocacia-Geral da União"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="4"/>
+            <column name="nm_orgao" value="Amazonas Geração e Transmissão de Energia S.A."/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="5"/>
+            <column name="nm_orgao" value="AMAZUL - Amazônia Azul Tecnologias de Defesa S.A."/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="6"/>
+            <column name="nm_orgao" value="AmE – Amazonas Distribuidora de Energia S.A."/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="7"/>
+            <column name="nm_orgao" value="AN – Arquivo Nacional"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="8"/>
+            <column name="nm_orgao" value="ANA – Agência Nacional de Águas"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="9"/>
+            <column name="nm_orgao" value="ANAC – Agência Nacional de Aviação Civil"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="10"/>
+            <column name="nm_orgao" value="ANATEL – Agência Nacional de Telecomunicações"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="11"/>
+            <column name="nm_orgao" value="ANCINE – Agência Nacional do Cinema"/>
+        </insert>
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="12"/>
+            <column name="nm_orgao" value="ANEEL – Agência Nacional de Energia Elétrica"/>
+
+        </insert>
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="13"/>
+            <column name="nm_orgao" value="ANM - Agência Nacional de Mineração"/>
+
+        </insert>
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="14"/>
+            <column name="nm_orgao" value="ANP – Agência Nacional do Petróleo, Gás Natural e Biocombustíveis"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="15"/>
+            <column name="nm_orgao" value="ANS – Agência Nacional de Saúde Suplementar"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="16"/>
+            <column name="nm_orgao" value="ANTAQ – Agência Nacional de Transportes Aquaviários"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="17"/>
+            <column name="nm_orgao" value="ANTT – Agência Nacional de Transportes Terrestres"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="18"/>
+            <column name="nm_orgao" value="ANVISA – Agência Nacional de Vigilância Sanitária"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="19"/>
+            <column name="nm_orgao" value="BACEN – Banco Central do Brasil"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="20"/>
+            <column name="nm_orgao" value="BASA – Banco da Amazônia S.A."/>
+        </insert>
+
+        <!--20 inserts-->
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="21"/>
+            <column name="nm_orgao" value="BB – Banco do Brasil S.A."/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="22"/>
+            <column name="nm_orgao" value="BB Tecnologia e Serviços"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="23"/>
+            <column name="nm_orgao" value="BBTur Viagens e Turismo Ltda"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="24"/>
+            <column name="nm_orgao" value="BNB – Banco do Nordeste do Brasil S.A."/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="25"/>
+            <column name="nm_orgao" value="BNDES – Banco Nacional de Desenvolvimento Econômico e Social"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="26"/>
+            <column name="nm_orgao" value="BVEnergia – Boa Vista Energia S.A."/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="27"/>
+            <column name="nm_orgao" value="CADE – Conselho Administrativo de Defesa Econômica"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="28"/>
+            <column name="nm_orgao" value="CAPES – Coordenação de Aperfeiçoamento de Pessoal de Nível Superior"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="29"/>
+            <column name="nm_orgao" value="CASEMG – Companhia de Armazéns e Silos do Estado de Minas Gerais"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="30"/>
+            <column name="nm_orgao" value="CBPF – Centro Brasileiro de Pesquisas Físicas"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="31"/>
+            <column name="nm_orgao" value="CBTU – Companhia Brasileira de Trens Urbanos "/>
+        </insert>
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="32"/>
+            <column name="nm_orgao" value="CC-PR – Casa Civil da Presidência da República"/>
+
+        </insert>
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="33"/>
+            <column name="nm_orgao" value="CDC – Companhia Docas do Ceará"/>
+
+        </insert>
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="34"/>
+            <column name="nm_orgao" value="CDP – Companhia Docas do Pará"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="35"/>
+            <column name="nm_orgao" value="CDRJ – Companhia Docas do Rio de Janeiro"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="36"/>
+            <column name="nm_orgao" value="CEAGESP – Companhia de Entrepostos e Armazéns Gerais de São Paulo "/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="37"/>
+            <column name="nm_orgao" value="CEAL – Companhia Energética de Alagoas"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="38"/>
+            <column name="nm_orgao" value="CEASA-MG – Centrais de Abastecimento de Minas Gerais S.A."/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="39"/>
+            <column name="nm_orgao" value="CEF – Caixa Econômica Federal"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="40"/>
+            <column name="nm_orgao" value="CEFET-MG – Centro Federal de Educação Tecnológica de Minas Gerais"/>
+        </insert>
+
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.03.05">
+        <dropColumn columnName="dt_data_inicio"
+                    schemaName="sdsic"
+                    tableName="tb_andamento"/>
+        <dropColumn columnName="dt_data_fim"
+                    schemaName="sdsic"
+                    tableName="tb_andamento"/>
+        <addColumn schemaName="sdsic"
+                   tableName="tb_andamento">
+            <column name="dt_data_inicio" type="timestamp"/>
+        </addColumn>
+        <addColumn schemaName="sdsic"
+                   tableName="tb_andamento">
+            <column name="dt_data_fim" type="timestamp"/>
+        </addColumn>
+        <addColumn schemaName="sdsic"
+                   tableName="tb_andamento">
+            <column name="id_status_solicitacao" type="bigint"/>
+        </addColumn>
+    </changeSet>
+
+
+
+    <changeSet  author="pedro.ramalho" id="1.03.06">
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="41"/>
+            <column name="nm_orgao" value="CEFET-RJ – Centro Federal de Educação Tecnológica Celso Suckow da Fonseca"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="42"/>
+            <column name="nm_orgao" value="CEITEC/S.A. – Centro Nacional de Tecnologia Eletrônica Avançada S.A."/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="43"/>
+            <column name="nm_orgao" value="CEPISA – Companhia Energética do Piauí"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="44"/>
+            <column name="nm_orgao" value="CERON – Centrais Elétricas de Rondônia S.A."/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="45"/>
+            <column name="nm_orgao" value="CETEM – Centro de Tecnologia Mineral"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="46"/>
+            <column name="nm_orgao" value="CETENE – Centro de Tecnologias Estratégicas do Nordeste"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="47"/>
+            <column name="nm_orgao" value="CEX – Comando do Exército"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="48"/>
+            <column name="nm_orgao" value="CGTEE – Companhia de Geração Térmica de Energia Elétrica"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="49"/>
+            <column name="nm_orgao" value="CGU – Ministério da Transparência e Controladoria-Geral da União"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="50"/>
+            <column name="nm_orgao" value="CHESF – Companhia Hidro Elétrica do São Francisco"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="51"/>
+            <column name="nm_orgao" value="CMAR – Comando da Marinha"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="52"/>
+            <column name="nm_orgao" value="CMB – Casa da Moeda do Brasil"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="53"/>
+            <column name="nm_orgao" value="CNEN – Comissão Nacional de Energia Nuclear"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="54"/>
+            <column name="nm_orgao" value="CNPQ – Conselho Nacional de Desenvolvimento Científico e Tecnológico"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="55"/>
+            <column name="nm_orgao" value="CODEBA – Companhia das Docas do Estado da Bahia"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="56"/>
+            <column name="nm_orgao" value="CODERN – Companhia Docas do Rio Grande do Norte"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="57"/>
+            <column name="nm_orgao" value="CODESA – Companhia Docas do Espírito Santo"/>
+        </insert>
+
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="58"/>
+            <column name="nm_orgao" value="CODESP – Companhia Docas do Estado de São Paulo"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="59"/>
+            <column name="nm_orgao" value="CODEVASF – Companhia de Desenvolvimento dos Vales do São Francisco e do Parnaíba"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="60"/>
+            <column name="nm_orgao" value="CODOMAR – Companhia Docas do Maranhão"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="61"/>
+            <column name="nm_orgao" value="COMAER – Comando da Aeronáutica"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="62"/>
+            <column name="nm_orgao" value="CONAB – Companhia Nacional de Abastecimento"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="63"/>
+            <column name="nm_orgao" value="CP II – Colégio Pedro II"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="64"/>
+            <column name="nm_orgao" value="CPRM – Companhia de Pesquisa de Recursos Minerais"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="65"/>
+            <column name="nm_orgao" value="CTI – Centro de Tecnologia da Informação Renato Archer"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="66"/>
+            <column name="nm_orgao" value="CVM – Comissão de Valores Mobiliários"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="67"/>
+            <column name="nm_orgao" value="DATAPREV – Empresa de Tecnologia e Informações da Previdência"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="68"/>
+            <column name="nm_orgao" value="DEPEN – Departamento Penitenciário Nacional"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="69"/>
+            <column name="nm_orgao" value="DNIT/MT – Departamento Nacional de Infraestrutura de Transportes"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="70"/>
+            <column name="nm_orgao" value="DNOCS – Departamento Nacional de Obras Contra as Secas"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="71"/>
+            <column name="nm_orgao" value="DPF – Departamento de Polícia Federal"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="72"/>
+            <column name="nm_orgao" value="DPRF – Departamento de Polícia Rodoviária Federal"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="73"/>
+            <column name="nm_orgao" value="EBC – Empresa Brasil de Comunicação S.A."/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="74"/>
+            <column name="nm_orgao" value="EBSERH – Empresa Brasileira de Serviços Hospitalares"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="75"/>
+            <column name="nm_orgao" value="EBSERH - HDT/UFTO - Hospital de Doenças Tropicais da UFTO"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="76"/>
+            <column name="nm_orgao" value="EBSERH - UFSCAR/SP - Hospital Universitário Professor Dr. Horácio Carlos Penepucci"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="77"/>
+            <column name="nm_orgao" value="EBSERH/FURG - Hospital Universitário Dr. Miguel Riet Côrrea Júnior"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="78"/>
+            <column name="nm_orgao" value="EBSERH-HUL - Hospital Universitário de Lagarto"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="79"/>
+            <column name="nm_orgao" value="EBSERH-UFPR/MVFA – Maternidade Victor Ferreira do Amaral"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="80"/>
+            <column name="nm_orgao" value="EBSERH-UNIVASF - Hospital de Ensino Dr. Washington Antônio de Barros"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="81"/>
+            <column name="nm_orgao" value="ECT – Empresa Brasileira de Correios e Telégrafos"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="82"/>
+            <column name="nm_orgao" value="ELETROACRE – Companhia de Eletricidade do Acre"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="83"/>
+            <column name="nm_orgao" value="ELETROBRÁS – Centrais Elétricas Brasileiras S.A."/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="84"/>
+            <column name="nm_orgao" value="ELETRONORTE – Centrais Elétricas do Norte do Brasil S.A."/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="85"/>
+            <column name="nm_orgao" value="ELETRONUCLEAR – Eletrobrás Termonuclear S.A."/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="86"/>
+            <column name="nm_orgao" value="ELETROPAR – Eletrobrás Participações S.A."/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="87"/>
+            <column name="nm_orgao" value="ELETROSUL – Eletrosul Centrais Elétricas S.A."/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="88"/>
+            <column name="nm_orgao" value="ELETROSUL – Eletrosul Centrais Elétricas S.A."/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="89"/>
+            <column name="nm_orgao" value="EMBRAPA – Empresa Brasileira de Pesquisa Agropecuária"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="90"/>
+            <column name="nm_orgao" value="EMBRATUR – Instituto Brasileiro de Turismo"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="91"/>
+            <column name="nm_orgao" value="EMGEA – Empresa Gestora de Ativos"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="92"/>
+            <column name="nm_orgao" value="EMGEPRON – Empresa Gerencial de Projetos Navais"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="93"/>
+            <column name="nm_orgao" value="ENAP – Fundação Escola Nacional de Administração Pública"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="94"/>
+            <column name="nm_orgao" value="EPE – Empresa de Pesquisa Energética"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="95"/>
+            <column name="nm_orgao" value="EPL – Empresa de Planejamento e Logística S.A."/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="96"/>
+            <column name="nm_orgao" value="ESG – Escola Superior de Guerra"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="97"/>
+            <column name="nm_orgao" value="FBN – Fundação Biblioteca Nacional"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="98"/>
+            <column name="nm_orgao" value="FCP – Fundação Cultural Palmares"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="99"/>
+            <column name="nm_orgao" value="FCRB – Fundação Casa de Rui Barbosa"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="100"/>
+            <column name="nm_orgao" value="FINEP – Financiadora de Estudos e Projetos"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="101"/>
+            <column name="nm_orgao" value="FIOCRUZ – Fundação Oswaldo Cruz"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="102"/>
+            <column name="nm_orgao" value="FNDE – Fundo Nacional de Desenvolvimento da Educação"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="103"/>
+            <column name="nm_orgao" value="FUNAG – Fundação Alexandre de Gusmão"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="104"/>
+            <column name="nm_orgao" value="FUNAI – Fundação Nacional do Índio"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="105"/>
+            <column name="nm_orgao" value="FUNARTE – Fundação Nacional de Artes"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="106"/>
+            <column name="nm_orgao" value="FUNASA – Fundação Nacional de Saúde"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="107"/>
+            <column name="nm_orgao" value="FUNDACENTRO – Fundação Jorge Duprat Figueiredo, de Segurança e Medicina do Trabalho"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="108"/>
+            <column name="nm_orgao" value="FUNDAJ – Fundação Joaquim Nabuco"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="109"/>
+            <column name="nm_orgao" value="FUNRei - Fundação Universidade Federal de São João Del Rei"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="110"/>
+            <column name="nm_orgao" value="FURG – Fundação Universidade Federal do Rio Grande"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="111"/>
+            <column name="nm_orgao" value="FURNAS – Furnas Centrais Elétricas S.A."/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="112"/>
+            <column name="nm_orgao" value="GSI-PR – Gabinete de Segurança Institucional da Presidência da República"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="113"/>
+            <column name="nm_orgao" value="HCPA – Hospital de Clínicas de Porto Alegre"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="114"/>
+            <column name="nm_orgao" value="HC-UFG – Hospital das Clínicas da UFG"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="115"/>
+            <column name="nm_orgao" value="HC-UFPE – Hospital das Clínicas da UFPE"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="116"/>
+            <column name="nm_orgao" value="HC-UFTM – Hospital de Clínicas da UFTM"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="117"/>
+            <column name="nm_orgao" value="HEMOBRÁS – Empresa Brasileira de Hemoderivados e Biotecnologia"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="118"/>
+            <column name="nm_orgao" value="HFA – Hospital das Forças Armadas"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="119"/>
+            <column name="nm_orgao" value="HNSC – Hospital Nossa Senhora da Conceição S.A."/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="120"/>
+            <column name="nm_orgao" value="Hospital das Clínicas da UFMG"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="121"/>
+            <column name="nm_orgao" value="Hospital Escola da UFPEL"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="122"/>
+            <column name="nm_orgao" value="HU/FUFMA - Hospital Universitário"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="123"/>
+            <column name="nm_orgao" value="HU/UFGD – Hospital Universitário da Universidade Federal da Grande Dourados"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="124"/>
+            <column name="nm_orgao" value="HU/UFPI – Hospital Universitário da Universidade Federal do Piauí"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="125"/>
+            <column name="nm_orgao" value="HU/UFS - Hospital Universitário da Universidade Federal de Sergipe"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="126"/>
+            <column name="nm_orgao" value="HUAB - UFRN - Hospital Universitário Ana Bezerra"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="127"/>
+            <column name="nm_orgao" value="HUB – Hospital Universitário de Brasília"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="128"/>
+            <column name="nm_orgao" value="HUCAM - Hospital Universitário Cassiano Antonio de Moraes"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="129"/>
+            <column name="nm_orgao" value="HUGV-UFAM – Hospital Universitário Getúlio Vargas"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="130"/>
+            <column name="nm_orgao" value="HUJBB - Hospital Universitário João de Barros Barreto"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="131"/>
+            <column name="nm_orgao" value="HUJM-UFMT – Hospital Universitário Julio Muller"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="132"/>
+            <column name="nm_orgao" value="HULW - Hospital Universitário Lauro Wanderley"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="133"/>
+            <column name="nm_orgao" value="HUOL – Hospital Universitário Onofre Lopes"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="134"/>
+            <column name="nm_orgao" value="HUPAA - Hospital Universitário Prof. Alberto Antunes"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="135"/>
+            <column name="nm_orgao" value="HUPES - Complexo Hospitalar Universitário Professor Edgard Santos"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="136"/>
+            <column name="nm_orgao" value="HUSM-UFSM - Hospital Universitário de Santa Maria"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="137"/>
+            <column name="nm_orgao" value="HU-UFJF - Hospital Universitário da Universidade Federal de Juiz de Fora"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="138"/>
+            <column name="nm_orgao" value="HUWC - Hospital Universitário Walter Cantídio"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="139"/>
+            <column name="nm_orgao" value="IBAMA – Instituto Brasileiro do Meio Ambiente e dos Recursos Naturais Renováveis"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="140"/>
+            <column name="nm_orgao" value="IBC – Instituto Benjamin Constant"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="141"/>
+            <column name="nm_orgao" value="IBGE – Fundação Instituto Brasileiro de Geografia e Estatística"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="142"/>
+            <column name="nm_orgao" value="IBICT – Instituto Brasileiro de Informação em Ciência e Tecnologia"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="143"/>
+            <column name="nm_orgao" value="IBRAM – Instituto Brasileiro de Museus"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="144"/>
+            <column name="nm_orgao" value="ICMBio – Instituto Chico Mendes de Conservação da Biodiversidade"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="145"/>
+            <column name="nm_orgao" value="IF BAIANO – Instituto Federal de Educação, Ciência e Tecnologia Baiano"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="146"/>
+            <column name="nm_orgao" value="IF FLUMINENSE – Instituto Federal de Educação, Ciência e Tecnologia Fluminense"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="147"/>
+            <column name="nm_orgao" value="IF GOIANO – Instituto Federal de Educação, Ciência e Tecnologia Goiano"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="148"/>
+            <column name="nm_orgao" value="IFAC – Instituto Federal de Educação, Ciência e Tecnologia do Acre"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="149"/>
+            <column name="nm_orgao" value="IFAL – Instituto Federal de Educação, Ciência e Tecnologia de Alagoas"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="150"/>
+            <column name="nm_orgao" value="IFAM – Instituto Federal de Educação, Ciência e Tecnologia do Amazonas"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="151"/>
+            <column name="nm_orgao" value="IFAP – Instituto Federal de Educação, Ciência e Tecnologia do Amapá"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="152"/>
+            <column name="nm_orgao" value="IFB – Instituto Federal de Educação, Ciência e Tecnologia de Brasília"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="153"/>
+            <column name="nm_orgao" value="IFBA – Instituto Federal de Educação, Ciência e Tecnologia da Bahia"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="154"/>
+            <column name="nm_orgao" value="IFC – Instituto Federal de Educação, Ciência e Tecnologia Catarinense"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="155"/>
+            <column name="nm_orgao" value="IFCE – Instituto Federal de Educação, Ciência e Tecnologia do Ceará"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="156"/>
+            <column name="nm_orgao" value="IFES – Instituto Federal de Educação, Ciência e Tecnologia do Espírito Santo"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="157"/>
+            <column name="nm_orgao" value="IFFAR – Instituto Federal de Educação, Ciência e Tecnologia Farroupilha"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="158"/>
+            <column name="nm_orgao" value="IFG – Instituto Federal de Educação, Ciência e Tecnologia de Goiás"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="159"/>
+            <column name="nm_orgao" value="IFMA – Instituto Federal de Educação, Ciência e Tecnologia do Maranhão"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="160"/>
+            <column name="nm_orgao" value="IFMG – Instituto Federal de Educação, Ciência e Tecnologia de Minas Gerais"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="161"/>
+            <column name="nm_orgao" value="IFMGSE – Instituto Federal de Educação, Ciência e Tecnologia do Sudeste de Minas Gerais"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="162"/>
+            <column name="nm_orgao" value="IFMS – Instituto Federal de Educação, Ciência e Tecnologia do Mato Grosso do Sul"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="163"/>
+            <column name="nm_orgao" value="IFMT – Instituto Federal de Educação, Ciência e Tecnologia do Mato Grosso"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="164"/>
+            <column name="nm_orgao" value="IFNMG – Instituto Federal de Educação, Ciência e Tecnologia do Norte de Minas Gerais"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="165"/>
+            <column name="nm_orgao" value="IFPA – Instituto Federal de Educação, Ciência e Tecnologia do Pará"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="166"/>
+            <column name="nm_orgao" value="IFPB – Instituto Federal de Educação, Ciência e Tecnologia da Paraíba"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="167"/>
+            <column name="nm_orgao" value="IFPE – Instituto Federal de Educação, Ciência e Tecnologia de Pernambuco"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="168"/>
+            <column name="nm_orgao" value="IFPI – Instituto Federal de Educação, Ciência e Tecnologia do Piauí"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="169"/>
+            <column name="nm_orgao" value="IFPR – Instituto Federal de Educação, Ciência e Tecnologia do Paraná"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="170"/>
+            <column name="nm_orgao" value="IFRJ – Instituto Federal de Educação, Ciência e Tecnologia do Rio de Janeiro"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="171"/>
+            <column name="nm_orgao" value="IFRN – Instituto Federal de Educação, Ciência e Tecnologia do Rio Grande do Norte"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="172"/>
+            <column name="nm_orgao" value="IFRO – Instituto Federal de Educação, Ciência e Tecnologia de Rondônia"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="173"/>
+            <column name="nm_orgao" value="IFRR – Instituto Federal de Educação, Ciência e Tecnologia de Roraima"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="174"/>
+            <column name="nm_orgao" value="IFRS – Instituto Federal de Educação, Ciência e Tecnologia do Rio Grande do Sul"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="175"/>
+            <column name="nm_orgao" value="IFSC – Instituto Federal de Educação, Ciência e Tecnologia de Santa Catarina"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="176"/>
+            <column name="nm_orgao" value="IFSE – Instituto Federal de Educação, Ciência e Tecnologia de Sergipe"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="177"/>
+            <column name="nm_orgao" value="IFSP – Instituto Federal de Educação, Ciência e Tecnologia de São Paulo"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="178"/>
+            <column name="nm_orgao" value="IFSPE – Instituto Federal de Educação, Ciência e Tecnologia do Sertão Pernambucano"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="179"/>
+            <column name="nm_orgao" value="IFSul – Instituto Federal de Educação, Ciência e Tecnologia Sul-Rio-Grandense"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="180"/>
+            <column name="nm_orgao" value="IFSULDEMINAS – Instituto Federal de Educação, Ciência e Tecnologia do Sul de Minas Gerais"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="181"/>
+            <column name="nm_orgao" value="IFTM – Instituto Federal de Educação, Ciência e Tecnologia do Triângulo Mineiro"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="182"/>
+            <column name="nm_orgao" value="IFTO – Instituto Federal de Educação, Ciência e Tecnologia do Tocantins"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="183"/>
+            <column name="nm_orgao" value="IMBEL – Indústria de Material Bélico do Brasil"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="184"/>
+            <column name="nm_orgao" value="IN – Imprensa Nacional"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="185"/>
+            <column name="nm_orgao" value="INB – Indústrias Nucleares do Brasil S.A."/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="186"/>
+            <column name="nm_orgao" value="INCRA – Instituto Nacional de Colonização e Reforma Agrária"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="187"/>
+            <column name="nm_orgao" value="INEP – Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="188"/>
+            <column name="nm_orgao" value="INES – Instituto Nacional de Educação de Surdos"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="189"/>
+            <column name="nm_orgao" value="INFRAERO – Empresa Brasileira de Infra-Estrutura Aeroportuária"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="190"/>
+            <column name="nm_orgao" value="INMETRO – Instituto Nacional de Metrologia, Qualidade e Tecnologia"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="191"/>
+            <column name="nm_orgao" value="INPA – Instituto Nacional de Pesquisas da Amazônia"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="192"/>
+            <column name="nm_orgao" value="INPE-MCT – Instituto Nacional de Pesquisas Espaciais"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="193"/>
+            <column name="nm_orgao" value="INPI – Instituto Nacional da Propriedade Industrial"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="194"/>
+            <column name="nm_orgao" value="INSA – Instituto Nacional do Semi-Árido"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="195"/>
+            <column name="nm_orgao" value="INSS – Instituto Nacional do Seguro Social"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="196"/>
+            <column name="nm_orgao" value="INT – Instituto Nacional de Tecnologia"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="197"/>
+            <column name="nm_orgao" value="IPEA – Fundação Instituto de Pesquisa Econômica Aplicada"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="198"/>
+            <column name="nm_orgao" value="IPHAN – Instituto do Patrimônio Histórico e Artístico Nacional"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="199"/>
+            <column name="nm_orgao" value="ITI – Instituto Nacional de Tecnologia da Informação"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="200"/>
+            <column name="nm_orgao" value="JBRJ – Instituto de Pesquisas Jardim Botânico do Rio de Janeiro"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="201"/>
+            <column name="nm_orgao" value="LNA – Laboratório Nacional de Astrofísica"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="202"/>
+            <column name="nm_orgao" value="LNCC-MCT – Laboratório Nacional de Computação Científica"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="203"/>
+            <column name="nm_orgao" value="MAPA – Ministério da Agricultura, Pecuária e Abastecimento"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="204"/>
+            <column name="nm_orgao" value="MAST – Museu de Astronomia e Ciências Afins"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="205"/>
+            <column name="nm_orgao" value="MCA/UFBA - Maternidade Climerio de Oliveira"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="206"/>
+            <column name="nm_orgao" value="MCIDADES – Ministério das Cidades"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="207"/>
+            <column name="nm_orgao" value="MCTIC – Ministério da Ciência, Tecnologia, Inovações e Comunicações"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="208"/>
+            <column name="nm_orgao" value="MD – Ministério da Defesa"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="209"/>
+            <column name="nm_orgao" value="MDA – Ministério do Desenvolvimento Agrário"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="210"/>
+            <column name="nm_orgao" value="MDIC - Ministério da Indústria, Comércio Exterior e Serviços"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="211"/>
+            <column name="nm_orgao" value="MDS – Ministério do Desenvolvimento Social"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="212"/>
+            <column name="nm_orgao" value="ME – Ministério do Esporte"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="213"/>
+            <column name="nm_orgao" value="MEAC - Maternidade Escola Assis Chateaubriand"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="214"/>
+            <column name="nm_orgao" value="MEC – Ministério da Educação"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="215"/>
+            <column name="nm_orgao" value="MEJC - Maternidade Escola Januário Cicco UFRN"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="216"/>
+            <column name="nm_orgao" value="MF – Ministério da Fazenda"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="217"/>
+            <column name="nm_orgao" value="MGEP-MCT – Museu Paraense Emílio Goeldi"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="218"/>
+            <column name="nm_orgao" value="MI – Ministério da Integração Nacional"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="219"/>
+            <column name="nm_orgao" value="MinC – Ministério da Cultura"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="220"/>
+            <column name="nm_orgao" value="MJ – Ministério da Justiça"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="221"/>
+            <column name="nm_orgao" value="MMA – Ministério do Meio Ambiente"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="222"/>
+            <column name="nm_orgao" value="MME – Ministério de Minas e Energia"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="223"/>
+            <column name="nm_orgao" value="MP – Ministério do Planejamento, Desenvolvimento e Gestão"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="224"/>
+            <column name="nm_orgao" value="MRE – Ministério das Relações Exteriores"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="225"/>
+            <column name="nm_orgao" value="MS – Ministério da Saúde"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="226"/>
+            <column name="nm_orgao" value="MT – Ministério do Trabalho"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="227"/>
+            <column name="nm_orgao" value="MT7PA – Ministério dos Transportes, Portos e Aviação Civil"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="228"/>
+            <column name="nm_orgao" value="MTur – Ministério do Turismo"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="229"/>
+            <column name="nm_orgao" value="NHU - UFMS - Hospital Universitário Maria Aparecida Pedrossian"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="230"/>
+            <column name="nm_orgao" value="NUCLEP – Nuclebrás Equipamentos Pesados S.A."/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="231"/>
+            <column name="nm_orgao" value="ON-MCT – Observatório Nacional"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="232"/>
+            <column name="nm_orgao" value="PETROBRAS – Petróleo Brasileiro S.A."/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="233"/>
+            <column name="nm_orgao" value="PR – Presidência da República"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="234"/>
+            <column name="nm_orgao" value="PREVIC – Superintendência Nacional de Previdência Complementar"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="235"/>
+            <column name="nm_orgao" value="SAP - Secretaria de Aquicultura e Pesca"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="236"/>
+            <column name="nm_orgao" value="SDH – Secretaria de Direitos Humanos"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="237"/>
+            <column name="nm_orgao" value="SECOM-PR – Secretaria de Comunicação Social da Presidência da República"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="238"/>
+            <column name="nm_orgao" value="SEGOV/PR - Secretaria de Governo da Presidência da República"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="239"/>
+            <column name="nm_orgao" value="SEPPIR – Secretaria de Políticas de Promoção da Igualdade Racial"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="240"/>
+            <column name="nm_orgao" value="SERPRO – Serviço Federal de Processamento de Dados"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="241"/>
+            <column name="nm_orgao" value="SFB – Serviço Florestal Brasileiro"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="242"/>
+            <column name="nm_orgao" value="SGPR – Secretaria-Geral da Presidência da República"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="243"/>
+            <column name="nm_orgao" value="SUDAM – Superintendência do Desenvolvimento da Amazônia"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="244"/>
+            <column name="nm_orgao" value="SUDECO – Superintendência de Desenvolvimento do Centro-Oeste"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="245"/>
+            <column name="nm_orgao" value="SUDENE – Superintendência do Desenvolvimento do Nordeste"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="246"/>
+            <column name="nm_orgao" value="SUFRAMA – Superintendência da Zona Franca de Manaus"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="247"/>
+            <column name="nm_orgao" value="SUSEP – Superintendência de Seguros Privados"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="248"/>
+            <column name="nm_orgao" value="TELEBRÁS – Telecomunicações Brasileiras S.A."/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="249"/>
+            <column name="nm_orgao" value="TRENSURB – Empresa de Trens Urbanos de Porto Alegre S.A."/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="250"/>
+            <column name="nm_orgao" value="UFABC – Fundação Universidade Federal do ABC"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="251"/>
+            <column name="nm_orgao" value="UFAC – Fundação Universidade Federal do Acre"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="252"/>
+            <column name="nm_orgao" value="UFAL – Universidade Federal de Alagoas"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="253"/>
+            <column name="nm_orgao" value="UFAM – Fundação Universidade do Amazonas"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="254"/>
+            <column name="nm_orgao" value="UFBA – Universidade Federal da Bahia"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="255"/>
+            <column name="nm_orgao" value="UFC – Universidade Federal do Ceará"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="256"/>
+            <column name="nm_orgao" value="UFCA - Universidade Federal do Cariri"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="257"/>
+            <column name="nm_orgao" value="UFCG – Universidade Federal de Campina Grande"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="258"/>
+            <column name="nm_orgao" value="UFCSPA – Fundação Universidade Federal de Ciências da Saúde de Porto Alegre"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="259"/>
+            <column name="nm_orgao" value="UFERSA-RN – Universidade Federal Rural do Semi-Árido"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="260"/>
+            <column name="nm_orgao" value="UFES – Universidade Federal do Espírito Santo"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="261"/>
+            <column name="nm_orgao" value="UFESBA - Universidade Federal do Sul da Bahia"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="262"/>
+            <column name="nm_orgao" value="UFF – Universidade Federal Fluminense"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="263"/>
+            <column name="nm_orgao" value="UFFS – Universidade Federal da Fronteira Sul"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="264"/>
+            <column name="nm_orgao" value="UFG – Universidade Federal de Goiás"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="265"/>
+            <column name="nm_orgao" value="UFGD – Fundação Universidade Federal da Grande Dourados"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="266"/>
+            <column name="nm_orgao" value="UFJF – Universidade Federal de Juiz de Fora"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="267"/>
+            <column name="nm_orgao" value="UFLA – Universidade Federal de Lavras"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="268"/>
+            <column name="nm_orgao" value="UFMA – Fundação Universidade Federal do Maranhão"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="269"/>
+            <column name="nm_orgao" value="UFMG – Universidade Federal de Minas Gerais"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="270"/>
+            <column name="nm_orgao" value="UFMS – Fundação Universidade Federal de Mato Grosso do Sul"/>
+        </insert>
+        <!--UAU-->
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="271"/>
+            <column name="nm_orgao" value="UFMT – Fundação Universidade Federal de Mato Grosso"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="272"/>
+            <column name="nm_orgao" value="UFOB - Universidade Federal do Oeste da Bahia"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="273"/>
+            <column name="nm_orgao" value="UFOP – Fundação Universidade Federal de Ouro Preto"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="274"/>
+            <column name="nm_orgao" value="UFOPA – Universidade Federal do Oeste do Pará"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="275"/>
+            <column name="nm_orgao" value="UFPA – Universidade Federal do Pará"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="276"/>
+            <column name="nm_orgao" value="UFPB – Universidade Federal da Paraíba"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="277"/>
+            <column name="nm_orgao" value="UFPE – Universidade Federal de Pernambuco"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="278"/>
+            <column name="nm_orgao" value="UFPel – Fundação Universidade Federal de Pelotas"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="279"/>
+            <column name="nm_orgao" value="UFPI – Fundação Universidade Federal do Piauí"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="280"/>
+            <column name="nm_orgao" value="UFPR – Universidade Federal do Paraná"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="281"/>
+            <column name="nm_orgao" value="UFRA – Universidade Federal Rural da Amazônia"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="282"/>
+            <column name="nm_orgao" value="UFRB – Universidade Federal do Recôncavo da Bahia"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="283"/>
+            <column name="nm_orgao" value="UFRGS – Universidade Federal do Rio Grande do Sul"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="284"/>
+            <column name="nm_orgao" value="UFRJ – Universidade Federal do Rio de Janeiro"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="285"/>
+            <column name="nm_orgao" value="UFRN – Universidade Federal do Rio Grande do Norte"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="286"/>
+            <column name="nm_orgao" value="UFRPE – Universidade Federal Rural de Pernambuco"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="287"/>
+            <column name="nm_orgao" value="UFRR – Fundação Universidade Federal de Roraima"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="288"/>
+            <column name="nm_orgao" value="UFRR – UFRRJ – Universidade Federal Rural do Rio de Janeiro"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="289"/>
+            <column name="nm_orgao" value="UFS – Fundação Universidade Federal de Sergipe"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="290"/>
+            <column name="nm_orgao" value="UFSC – Universidade Federal de Santa Catarina"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="291"/>
+            <column name="nm_orgao" value="UFSCar – Fundação Universidade Federal de São Carlos"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="292"/>
+            <column name="nm_orgao" value="UFSM – Universidade Federal de Santa Maria"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="293"/>
+            <column name="nm_orgao" value="UFT – Fundação Universidade Federal do Tocantins"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="294"/>
+            <column name="nm_orgao" value="UFTM – Universidade Federal do Triângulo Mineiro"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="295"/>
+            <column name="nm_orgao" value="UFU – Universidade Federal de Uberlândia"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="296"/>
+            <column name="nm_orgao" value="UFV – Fundação Universidade Federal de Viçosa"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="297"/>
+            <column name="nm_orgao" value="UFVJM – Universidade Federal dos Vales do Jequitinhonha e Mucuri"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="298"/>
+            <column name="nm_orgao" value="UNB – Fundação Universidade de Brasília"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="299"/>
+            <column name="nm_orgao" value="UNIFAL-MG – Universidade Federal de Alfenas"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="300"/>
+            <column name="nm_orgao" value="UNIFAP – Fundação Universidade Federal do Amapá"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="301"/>
+            <column name="nm_orgao" value="UNIFEI – Universidade Federal de Itajubá"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="302"/>
+            <column name="nm_orgao" value="UNIFESP – Universidade Federal de São Paulo"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="303"/>
+            <column name="nm_orgao" value="UNIFESSPA – Universidade Federal do Sul e Sudeste do Pará"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="304"/>
+            <column name="nm_orgao" value="UNILA – Universidade Federal da Integração Latino-Americana"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="305"/>
+            <column name="nm_orgao" value="UNILAB – Universidade da Integração Internacional da Lusofonia Afro-Brasileira"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="306"/>
+            <column name="nm_orgao" value="UNIPAMPA – Fundação Universidade Federal do Pampa"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="307"/>
+            <column name="nm_orgao" value="UNIR – Fundação Universidade Federal de Rondônia"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="308"/>
+            <column name="nm_orgao" value="UNIRIO – Universidade Federal do Estado do Rio de Janeiro"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="309"/>
+            <column name="nm_orgao" value="UNIVASF – Fundação Universidade Federal do Vale do São Francisco"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="310"/>
+            <column name="nm_orgao" value="UTFPR – Universidade Tecnológica Federal do Paraná"/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="311"/>
+            <column name="nm_orgao" value="VALEC – Engenharia, Construções e Ferrovias S.A."/>
+        </insert>
+
+        <insert tableName="tb_orgao" schemaName="sdsic">
+            <column name="id_orgao" value="312"/>
+            <column name="nm_orgao" value="VPR – Vice-Presidência da República"/>
+        </insert>
+    </changeSet>
+
+
+
+    <changeSet author="pedro.henrique" id="1.03.07">
+
+        <dropColumn columnName="dt_data_registro"
+                    schemaName="sdsic"
+                    tableName="tb_pedido"/>
+
+        <dropColumn columnName="dt_prazo_atendimento"
+                    schemaName="sdsic"
+                    tableName="tb_pedido"/>
+        <dropColumn columnName="dt_entrada_protocolo_sdsic"
+                    schemaName="sdsic"
+                    tableName="tb_pedido"/>
+        <dropColumn columnName="dt_data_ultimo_reencaminham"
+                    schemaName="sdsic"
+                    tableName="tb_pedido"/>
+        <dropColumn columnName="dt_vencimento_unidade"
+                    schemaName="sdsic"
+                    tableName="tb_pedido"/>
+        <dropColumn columnName="dt_resposta_esic"
+                    schemaName="sdsic"
+                    tableName="tb_pedido"/>
+
+
+
+
+
+        <addColumn schemaName="sdsic"
+                   tableName="tb_pedido">
+            <column name="dt_data_registro" type="timestamp"/>
+        </addColumn>
+        <addColumn schemaName="sdsic"
+                   tableName="tb_pedido">
+            <column name="dt_prazo_atendimento" type="timestamp"/>
+        </addColumn>
+        <addColumn schemaName="sdsic"
+                   tableName="tb_pedido">
+            <column name="dt_entrada_protocolo_sdsic" type="timestamp"/>
+        </addColumn>
+        <addColumn schemaName="sdsic"
+                   tableName="tb_pedido">
+            <column name="dt_data_ultimo_reencaminham" type="timestamp"/>
+        </addColumn>
+        <addColumn schemaName="sdsic"
+                   tableName="tb_pedido">
+            <column name="dt_vencimento_unidade" type="timestamp"/>
+        </addColumn>
+        <addColumn schemaName="sdsic"
+                   tableName="tb_pedido">
+            <column name="dt_resposta_esic" type="timestamp"/>
+        </addColumn>
+
+
+
+    </changeSet>
+
+
+
+    <changeSet author="pedro.henrique" id="1.03.08">
+
+        <dropColumn columnName="dh_data"
+                    schemaName="sdsic"
+                    tableName="tb_historico_tratamento"/>
+
+        <addColumn schemaName="sdsic"
+        tableName="tb_historico_tratamento">
+        <column name="dh_data" type="timestamp"/>
+        </addColumn>
+
+    </changeSet>
+
+    <changeSet author="giovane.oliveira" id="1.03.09" >
+
+        <addColumn schemaName="sdsic" tableName="tb_prorrogacao">
+            <column name="st_esic" type="boolean" />
+        </addColumn>
+
+    </changeSet>
+
+    <changeSet author="giovane.oliveira" id="1.03.10" >
+        <addColumn schemaName="sdsic" tableName="tb_pedido">
+            <column name="dt_prorrogacao_esic"  type="timestamp"/>
+        </addColumn>
+    </changeSet>
+
+
+    <changeSet author="jean.reis" id="1.03.11" >
+        <addColumn schemaName="sdsic" tableName="tb_pedido">
+            <column name="st_vencimento_unidade_prorrog" type="boolean" />
+        </addColumn>
+        <addColumn schemaName="sdsic" tableName="tb_pedido">
+            <column name="st_prazo_atendimento_esic_pror" type="boolean" />
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

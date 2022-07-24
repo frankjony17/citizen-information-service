@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://acessoainformacao.gov.br" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://acessoainformacao.gov.br" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://acessoainformacao.gov.br">
+      <s:element name="ObterRecursos">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="objRequestObterRecurso" type="tns:RequestObterRecurso" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="RequestObterRecurso">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Usuario" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Senha" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Protocolo" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="DtAberturaInicio" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="DtAberturaFim" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="DtPrazoAtendimentoInicio" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="DtPrazoAtendimentoFim" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="Instancia" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="OrigemTerceiraInstancia" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="SituacaoRecurso" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="RetornarOrgaosVinculados" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="Orgao" nillable="true" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ObterRecursosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ObterRecursosResult" type="tns:ResponseObterRecurso" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ResponseObterRecurso">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="CodigoExecucao" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="DataHoraProcessamento" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="Recursos" type="tns:ArrayOfResponseRecurso" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfResponseRecurso">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ResponseRecurso" nillable="true" type="tns:ResponseRecurso" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ResponseRecurso">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ProtocoloPedido" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CodInstancia" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Instancia" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TipoRecurso" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="DataAbertura" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="PrazoAtendimento" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="Situacao" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Justificativa" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="QtdAnexos" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Solicitante" type="tns:ResponseSolicitante" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ResponseSolicitante">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="TipoPessoa" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Nome" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CPFouCNPJ" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DocumentoIdentificacao" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Sexo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Profissao" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DDD" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Telefone" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Endereco" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="UF" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Pais" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Cidade" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CEP" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ObterAnexosRecurso">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="usuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="senha" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="protocolo" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="instancia" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="origemTerceiraInstancia" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObterAnexosRecursoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ObterAnexosRecursoResult" type="tns:ResponseObterRecursoAnexo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ResponseObterRecursoAnexo">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="CodigoExecucao" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="DataHoraProcessamento" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="DescricaoExecucao" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="QuantidadeDeArquivo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Arquivos" type="tns:ArrayOfResponseArquivo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfResponseArquivo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ResponseArquivo" nillable="true" type="tns:ResponseArquivo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ResponseArquivo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="NomeArquivo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ArquivoZipAndBase64" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="ObterRecursosSoapIn">
+    <wsdl:part name="parameters" element="tns:ObterRecursos" />
+  </wsdl:message>
+  <wsdl:message name="ObterRecursosSoapOut">
+    <wsdl:part name="parameters" element="tns:ObterRecursosResponse" />
+  </wsdl:message>
+  <wsdl:message name="ObterAnexosRecursoSoapIn">
+    <wsdl:part name="parameters" element="tns:ObterAnexosRecurso" />
+  </wsdl:message>
+  <wsdl:message name="ObterAnexosRecursoSoapOut">
+    <wsdl:part name="parameters" element="tns:ObterAnexosRecursoResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ServicoConsultaRecursoSoap">
+    <wsdl:operation name="ObterRecursos">
+      <wsdl:input message="tns:ObterRecursosSoapIn" />
+      <wsdl:output message="tns:ObterRecursosSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ObterAnexosRecurso">
+      <wsdl:input message="tns:ObterAnexosRecursoSoapIn" />
+      <wsdl:output message="tns:ObterAnexosRecursoSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ServicoConsultaRecursoSoap" type="tns:ServicoConsultaRecursoSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ObterRecursos">
+      <soap:operation soapAction="http://acessoainformacao.gov.br/ObterRecursos" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObterAnexosRecurso">
+      <soap:operation soapAction="http://acessoainformacao.gov.br/ObterAnexosRecurso" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ServicoConsultaRecursoSoap12" type="tns:ServicoConsultaRecursoSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ObterRecursos">
+      <soap12:operation soapAction="http://acessoainformacao.gov.br/ObterRecursos" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObterAnexosRecurso">
+      <soap12:operation soapAction="http://acessoainformacao.gov.br/ObterAnexosRecurso" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ServicoConsultaRecurso">
+    <wsdl:port name="ServicoConsultaRecursoSoap" binding="tns:ServicoConsultaRecursoSoap">
+      <soap:address location="http://www.acessoainformacao.gov.br/sistema/servicos/ServicoConsultaRecurso.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ServicoConsultaRecursoSoap12" binding="tns:ServicoConsultaRecursoSoap12">
+      <soap12:address location="http://www.acessoainformacao.gov.br/sistema/servicos/ServicoConsultaRecurso.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

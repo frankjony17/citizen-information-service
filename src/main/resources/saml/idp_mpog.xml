@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EntityDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" entityID="is-mp.dev.nuvem.gov.br">
+    <IDPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol"
+                      validUntil="2018-07-31T20:39:12.898Z">
+        <KeyDescriptor use="signing">
+            <KeyInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
+                <X509Data>
+                    <X509Certificate>MIIDvzCCAqegAwIBAgIEXcddtTANBgkqhkiG9w0BAQsFADCBjzELMAkGA1UEBhMCQlIxCzAJBgNV
+                        BAgTAkRGMREwDwYDVQQHEwhCcmFzaWxpYTEVMBMGA1UEChMMUGxhbmVqYW1lbnRvMRUwEwYDVQQL
+                        EwxQbGFuZWphbWVudG8xMjAwBgNVBAMTKXBvYy13c28yaXMuYnJhemlsc291dGguY2xvdWRhcHAu
+                        YXp1cmUuY29tMB4XDTE3MDQxODE3NDc0OVoXDTE3MDcxNzE3NDc0OVowgY8xCzAJBgNVBAYTAkJS
+                        MQswCQYDVQQIEwJERjERMA8GA1UEBxMIQnJhc2lsaWExFTATBgNVBAoTDFBsYW5lamFtZW50bzEV
+                        MBMGA1UECxMMUGxhbmVqYW1lbnRvMTIwMAYDVQQDEylwb2Mtd3NvMmlzLmJyYXppbHNvdXRoLmNs
+                        b3VkYXBwLmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAIOwPBWr7SZc
+                        PBrAQU3dtDz9p0nt0FApkgulYhvz5ZU62V+p2GN5/VB154nBAU7ESzADMIu2cw+HzcRcu++uv4gM
+                        G/hnPBJVLcNyQgIIvLqdcVmL3MS+Q2lJGP/NX0HjcNBxgxEpTbWBK80zBgVaJ4q8DCGSQzvYCwli
+                        CZ2PlB7TWGWECLjznUSW4n5Qu3HbrjhCOfb3rrpXES3NKMwJrg2zvsy1c2QZW2lje2UkHM+XWTdt
+                        EmyXIEcBP50xCZ6saeMozHf8Hrtm/vqjhqglcy7M0Yx5EohiNn6w5He1ZaCapqXI4aMV5ZG3v5DJ
+                        zsQPLUeHnPRPXUd16CLT2BHqaX0CAwEAAaMhMB8wHQYDVR0OBBYEFAj8OIz8Yqg6GQApjQmNuWX9
+                        512tMA0GCSqGSIb3DQEBCwUAA4IBAQBzokeiY2sV5PNOaBL+zHxrUFvIZsP/HgNTdDrfhdub+mqF
+                        Jf8NoVBo8rmXirilGA2kfgm6E1Yx7su6zsA1u6Z98P0ekKknD1wHADODyILzCY9jFUm7Demn8e56
+                        70AuUSGdBVwXyGD6YumuG5zlGbdS/q5suOkKsRp38wUartMwY2ReTH00sK6DGvuaD+g3TX3MJxRt
+                        qh0EAc5dbL7n+EJ2dKW8dLcJK1hFMH0pckjJ+EDbO81LdhAbrsOc0T9uhaXVjPqkYxPPSPwngKGK
+                        ZgS1TYPFmfbgnEDjfbmeHFdiTP0ZtUfQzaaDG5LD6Y7eAWo6MD3w55eoe9NiLsDPEcp3
+                    </X509Certificate>
+                </X509Data>
+            </KeyInfo>
+        </KeyDescriptor>
+        <SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+                             Location="https://is-mp.dev.nuvem.gov.br:443/samlsso"
+                             ResponseLocation="https://is-mp.dev.nuvem.gov.br:443/samlsso"/>
+        <NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</NameIDFormat>
+        <SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+                             Location="https://is-mp.dev.nuvem.gov.br:443/samlsso"/>
+        <SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+                             Location="https://is-mp.dev.nuvem.gov.br:443/samlsso"/>
+    </IDPSSODescriptor>
+</EntityDescriptor>

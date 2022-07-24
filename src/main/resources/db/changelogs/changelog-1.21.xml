@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="frank.ramirez" id="1.21.01">
+        <dropForeignKeyConstraint baseTableName="tb_usuario_acessos" constraintName="fk_subunidade"/>
+        <dropColumn columnName="id_subunidade" schemaName="fks" tableName="tb_usuario_acessos"/>
+    </changeSet>
+
+    <changeSet author="frank.ramirez" id="1.21.02" >
+        <createTable schemaName="fks" tableName="tb_temp_usuario_acessos">
+            <column name="id_temp_usuario_acessos" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="usuario_id" type="bigint"/>
+            <column name="usuario_cpf" type="varchar(11)"/>
+            <column name="usuario_nome" type="varchar"/>
+            <column name="usuario_email" type="varchar"/>
+            <column name="usuario_ativo" type="boolean"/>
+            <column name="usuario_telefone_trabalho" type="varchar"/>
+            <column name="usuario_telefone_celular" type="varchar"/>
+            <column name="usuario_existe_acessos" type="boolean"/>
+        </createTable>
+        <createSequence sequenceName="seq_temp_usuario_acessos" schemaName="fks" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="frank.ramirez" id="1.21.03" >
+        <createTable schemaName="fks" tableName="tb_temp_perfis_acessos">
+            <column name="id_temp_perfis_acessos" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="perfil_id" type="bigint"/>
+            <column name="perfil_nome" type="varchar"/>
+            <column name="perfil_descricao" type="varchar"/>
+            <column name="perfil_unidade_id" type="bigint"/>
+            <column name="perfil_subunidades_ids" type="varchar"/>
+            <column name="perfil_existe_acessos" type="boolean"/>
+            <column name="perfil_excluido" type="boolean"/>
+            <column name="perfil_ativo" type="boolean"/>
+            <column name="temp_usuario_acessos_id" type="bigint"/>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="tb_temp_perfis_acessos"
+                baseColumnNames="temp_usuario_acessos_id"
+                constraintName="fk_temp_usuario_acessos"
+                referencedTableName="tb_temp_usuario_acessos"
+                referencedColumnNames="id_temp_usuario_acessos"/>
+        <createSequence sequenceName="seq_temp_perfis_acessos" schemaName="fks" startValue="1" incrementBy="1"/>
+    </changeSet>
+</databaseChangeLog>

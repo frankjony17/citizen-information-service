@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+
+    <changeSet author="joao.cabral" id="1.16.01">
+        <addUniqueConstraint columnNames="nm_tema"
+                             constraintName="nm_tema_unique"
+                             schemaName="sdsic"
+                             tableName="tb_tema" />
+
+    </changeSet>
+
+    <changeSet author="joao.cabral" id="1.16.02">
+        <addUniqueConstraint columnNames="nm_subtema"
+                             constraintName="nm_subtema_unique"
+                             schemaName="sdsic"
+                             tableName="tb_subtema" />
+        <addUniqueConstraint columnNames="ds_palavra_chave"
+                             constraintName="ds_palavra_chave_unique"
+                             schemaName="sdsic"
+                             tableName="tb_palavra_chave" />
+
+    </changeSet>
+
+    <changeSet id="1.16.03" author="maicon.godoy">
+        <insert schemaName="sdsic"
+                tableName="tb_tipo_tratamento">
+            <column name="id_tipo_tratamento" value="7"/>
+            <column name="tp_tipo_tratamento" value="Sugestão de encaminhamento e-Ouv cancelada"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1.16.04" author="maicon.godoy">
+        <insert schemaName="sdsic"
+                tableName="tb_situacao_pedido">
+            <column name="id_situacao_pedido" value="4"/>
+            <column name="nm_nome" value="Encaminhada para e-Ouv"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="maicon.godoy" id="1.16.05">
+        <modifyDataType
+                        columnName="nm_unidade"
+                        newDataType="bigint"
+                        schemaName="sdsic"
+                        tableName="tb_andamento_recurso"/>
+    </changeSet>
+
+    <changeSet id="1.16.06" author="maicon.godoy">
+        <renameColumn tableName="tb_andamento_recurso" oldColumnName="nm_unidade" newColumnName="id_unidade"/>
+    </changeSet>
+
+    <changeSet id="1.16.07" author="maicon.godoy">
+        <addForeignKeyConstraint baseTableName="tb_andamento_recurso"
+                                 baseColumnNames="id_unidade"
+                                 constraintName="fk_tb_unidade"
+                                 referencedTableName="tb_unidade"
+                                 referencedColumnNames="id_unidade"/>
+    </changeSet>
+
+
+    <changeSet id="1.16.08" author="maicon.godoy">
+        <addColumn schemaName="sdsic" tableName="tb_andamento_recurso">
+            <column name="id_usuario_acessos" type="bigint"/>
+        </addColumn>
+
+        <addForeignKeyConstraint
+                baseTableName="tb_andamento_recurso"
+                baseColumnNames="id_usuario_acessos"
+                constraintName="fk_tb_andamento_recurso"
+                referencedTableName="tb_usuario_acessos"
+                referencedColumnNames="id_usuario_acessos"/>
+    </changeSet>
+
+</databaseChangeLog>

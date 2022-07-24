@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="jean.reis" id="1.09.01">
+        <insert schemaName="fks"
+                tableName="tb_status_solicitacao_recurso">
+            <column name="id_status_solicitacao_recurso" value="9"/>
+            <column name="nm_nome" value="Recurso 2ª Triagem"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_status_solicitacao_recurso">
+            <column name="id_status_solicitacao_recurso" value="10"/>
+            <column name="nm_nome" value="Recurso 2ª Distribuição PF"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_status_solicitacao_recurso">
+            <column name="id_status_solicitacao_recurso" value="11"/>
+            <column name="nm_nome" value="Recurso 2ª Produção"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_status_solicitacao_recurso">
+            <column name="id_status_solicitacao_recurso" value="12"/>
+            <column name="nm_nome" value="Recurso 2ª Assinado"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_status_solicitacao_recurso">
+            <column name="id_status_solicitacao_recurso" value="13"/>
+            <column name="nm_nome" value="Recurso 2ª Respondido"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_status_solicitacao_recurso">
+            <column name="id_status_solicitacao_recurso" value="14"/>
+            <column name="nm_nome" value="Recurso 2ª Para Revisão"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_status_solicitacao_recurso">
+            <column name="id_status_solicitacao_recurso" value="15"/>
+            <column name="nm_nome" value="Recurso 2ª Para Envio"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_status_solicitacao_recurso">
+            <column name="id_status_solicitacao_recurso" value="16"/>
+            <column name="nm_nome" value="Recurso 2ª Enviado"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.08.16">
+        <update schemaName="fks"
+                tableName="tb_instancia_recurso">
+            <column name="nm_nome" value="Primeira Instância"/>
+            <where>id_instancia_recurso = 1</where>
+        </update>
+        <update schemaName="fks"
+                tableName="tb_instancia_recurso">
+            <column name="nm_nome" value="Segunda Instância"/>
+            <where>id_instancia_recurso = 2</where>
+        </update>
+        <update schemaName="fks"
+                tableName="tb_instancia_recurso">
+            <column name="nm_nome" value="CGU"/>
+            <where>id_instancia_recurso = 3</where>
+        </update>
+        <insert schemaName="fks"
+                tableName="tb_instancia_recurso">
+            <column name="id_instancia_recurso" value="4"/>
+            <column name="nm_nome" value="Reclamação por atraso"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1.08.17" author="maicon.godoy">
+        <dropColumn tableName="tb_unidade"
+                    schemaName="fks"
+                    columnName="status_unidade"/>
+
+    </changeSet>
+
+    <changeSet author="giovane.oliveira" id="1.09.02">
+        <insert schemaName="fks"
+                tableName="tb_instancia_recurso">
+            <column name="id_instancia_recurso" value="5"/>
+            <column name="nm_nome" value="CMRI"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_instancia_recurso">
+            <column name="id_instancia_recurso" value="6"/>
+            <column name="nm_nome" value="Pedido de Revisão"/>
+        </insert>
+    </changeSet>
+
+
+    <changeSet author="giovane.oliveira" id="1.09.03">
+        <delete tableName="tb_situacao_recurso"
+                schemaName="fks">
+            <where> id_situacao_recurso = 3 </where>
+        </delete>
+        <insert schemaName="fks"
+                tableName="tb_situacao_recurso">
+            <column name="id_situacao_recurso" value="3"/>
+            <column name="nm_nome" value="Em Julgamento"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_situacao_recurso">
+            <column name="id_situacao_recurso" value="4"/>
+            <column name="nm_nome" value="Não Respondido"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_situacao_recurso">
+            <column name="id_situacao_recurso" value="5"/>
+            <column name="nm_nome" value="Esclarecimentos Adicionais"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.09.04">
+        <addColumn schemaName="fks"
+                   tableName="tb_recurso">
+            <column name="st_status_resposta_assinada" type="boolean"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="1.09.05" author="maicon.godoy">
+        <createTable tableName="tb_pedido_subtema" schemaName="fks">
+            <column name="id_pedido" type="bigint"/>
+            <column name="id_subtema" type="bigint"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="tb_pedido_subtema"
+                                 baseColumnNames="id_pedido"
+                                 constraintName="fk_id_pedido"
+                                 referencedTableName="tb_pedido"
+                                 referencedColumnNames="id_pedido"/>
+
+        <addForeignKeyConstraint baseTableName="tb_pedido_subtema"
+                                 baseColumnNames="id_subtema"
+                                 constraintName="fk_id_subtema"
+                                 referencedTableName="tb_subtema"
+                                 referencedColumnNames="id_subtema"/>
+
+    </changeSet>
+
+
+    <changeSet id="1.09.06" author="maicon.godoy">
+        <createTable tableName="tb_pedido_palavra_chave" schemaName="fks">
+            <column name="id_pedido" type="bigint"/>
+            <column name="id_palavra_chave" type="bigint"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="tb_pedido_palavra_chave"
+                                 baseColumnNames="id_pedido"
+                                 constraintName="fk_id_pedido_palavra_chave"
+                                 referencedTableName="tb_pedido"
+                                 referencedColumnNames="id_pedido"/>
+
+        <addForeignKeyConstraint baseTableName="tb_pedido_palavra_chave"
+                                 baseColumnNames="id_palavra_chave"
+                                 constraintName="fk_id_palavra_chave"
+                                 referencedTableName="tb_palavra_chave"
+                                 referencedColumnNames="id_palavra_chave"/>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.09.07">
+        <addColumn schemaName="fks"
+                   tableName="tb_pedido">
+            <column name="st_status_resposta_assinada" type="boolean"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.09.08">
+        <update schemaName="fks"
+                tableName="tb_status_solicitacao">
+            <column name="nm_nome" value="Reencaminhada"/>
+            <where>id_status_solicitacao = 10</where>
+        </update>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.09.09">
+        <update schemaName="fks"
+                tableName="tb_status_tramitacao">
+            <column name="nm_nome" value="Reencaminhada"/>
+            <where>id_status_tramitacao = 6</where>
+        </update>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.09.10">
+        <update schemaName="fks"
+                tableName="tb_status_solicitacao">
+            <column name="nm_nome" value="Revisão"/>
+            <where>id_status_solicitacao = 4</where>
+        </update>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.09.11">
+        <addColumn schemaName="fks"
+                   tableName="tb_historico_tratamento">
+            <column name="st_status_resposta_assinada" type="boolean"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

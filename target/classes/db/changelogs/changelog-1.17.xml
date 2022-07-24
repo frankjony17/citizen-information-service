@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="frankjony17" id="1.16.01">
+        <addUniqueConstraint columnNames="ds_descricao"
+                constraintName="tb_classificacao_resposta_ds_descricao_unique"
+                schemaName="sdsic"
+                tableName="tb_classificacao_resposta"/>
+    </changeSet>
+</databaseChangeLog>

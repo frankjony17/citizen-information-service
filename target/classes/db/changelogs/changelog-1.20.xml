@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="murilo.madureira" id="1.20.01">
+        <sql>
+            delete from sdsic.tb_email_perfil_acesso;
+            delete from sdsic.tb_email;
+            delete from sdsic.tb_usuario_acesso_perfil_acesso;
+            delete from sdsic.tb_perfil_acessos;
+            delete from sdsic.tb_usuario_acessos;
+            INSERT INTO sdsic.tb_perfil_acessos(id_perfil_acessos, nm_nome_perfil, ds_descricao_perfil) VALUES(1, 'SDSIC.ATENDENTE.SIC', 'Atendente SIC');
+            INSERT INTO sdsic.tb_perfil_acessos(id_perfil_acessos, nm_nome_perfil, ds_descricao_perfil) VALUES(2, 'SDSIC.ADMIN', 'Administrador SDSIC');
+            INSERT INTO sdsic.tb_perfil_acessos(id_perfil_acessos, nm_nome_perfil, ds_descricao_perfil) VALUES(3, 'SDSIC.OBSERVADOR.SIC', 'Observador SIC');
+            INSERT INTO sdsic.tb_perfil_acessos(id_perfil_acessos, nm_nome_perfil, ds_descricao_perfil) VALUES(4, 'SDSIC.AUTORIDADE.MAXIMA', 'Autoridade Hierárquica');
+            INSERT INTO sdsic.tb_perfil_acessos(id_perfil_acessos, nm_nome_perfil, ds_descricao_perfil) VALUES(5, 'SDSIC.PONTO.FOCAL', 'Ponto Focal (PF)');
+            INSERT INTO sdsic.tb_perfil_acessos(id_perfil_acessos, nm_nome_perfil, ds_descricao_perfil) VALUES(6, 'SDSIC.AUTORIDADE.HIERARQUICA', 'SDSIC.AUTORIDADE.HIERARQUICA');
+            INSERT INTO sdsic.tb_perfil_acessos(id_perfil_acessos, nm_nome_perfil, ds_descricao_perfil) VALUES(7, 'SDSIC.OBSERVADOR.UNIDADE', 'Observador Unidade');
+            INSERT INTO sdsic.tb_perfil_acessos(id_perfil_acessos, nm_nome_perfil, ds_descricao_perfil) VALUES(8, 'SDSIC.RESPONDENTE', 'Respondente');
+            INSERT INTO sdsic.tb_perfil_acessos(id_perfil_acessos, nm_nome_perfil, ds_descricao_perfil) VALUES(9, 'SDSIC.TECNICO', 'Técnico');
+            INSERT INTO sdsic.tb_perfil_acessos(id_perfil_acessos, nm_nome_perfil, ds_descricao_perfil) VALUES(10, 'SDSIC.PONTO.FOCAL.AUTORIDADE.MAXIMA', 'Ponto Focal Autoridade Máxima (PF)');
+        </sql>
+    </changeSet>
+
+    <changeSet author="frank.ramirez" id="1.20.04" >
+        <createTable schemaName="sdsic" tableName="tb_usuario_acessos_subunidade">
+            <column name="id_usuario_acessos_subunidade" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="id_subunidade" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_usuario_acessos" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="st_status_subunidade" type="bool">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="tb_usuario_acessos_subunidade"
+                baseColumnNames="id_subunidade"
+                constraintName="fk_tb_subunidade"
+                referencedTableName="tb_subunidade"
+                referencedColumnNames="id_subunidade"/>
+        <addForeignKeyConstraint
+                baseTableName="tb_usuario_acessos_subunidade"
+                baseColumnNames="id_usuario_acessos"
+                constraintName="fk_tb_usuario_acessos"
+                referencedTableName="tb_usuario_acessos"
+                referencedColumnNames="id_usuario_acessos"/>
+        <createSequence sequenceName="seq_tb_usuario_acessos_subunidade" schemaName="sdsic" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="frank.ramirez" id="1.20.05">
+        <createTable schemaName="sdsic" tableName="tb_temp_orgao_siorg_acesso">
+            <column name="id_temp_orgao_siorg_acesso" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="co_codigo_ug" type="varchar(15)">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="nm_nome" type="varchar(100)">
+                <constraints unique="false" nullable="false" />
+            </column>
+            <column name="sg_sigla" type="varchar(10)">
+                <constraints nullable="false" />
+            </column>
+            <column name="at_ativo" type="boolean">
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="frank.ramirez" id="1.20.06">
+        <createTable schemaName="sdsic" tableName="tb_temp_unidade_siorg_acesso">
+            <column name="id_temp_unidade_siorg_acesso" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="co_codigo_ug" type="varchar(15)">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="nm_nome" type="varchar(100)">
+                <constraints nullable="true" />
+            </column>
+            <column name="sg_sigla" type="varchar(10)">
+                <constraints nullable="true" />
+            </column>
+            <column name="at_ativo" type="boolean">
+                <constraints nullable="true" />
+            </column>
+            <column name="temp_unidade_siorg_acesso_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="temp_orgao_siorg_acesso_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="tb_temp_unidade_siorg_acesso"
+                baseColumnNames="temp_unidade_siorg_acesso_id"
+                constraintName="fk_temp_unidade_siorg_acesso"
+                referencedTableName="tb_temp_unidade_siorg_acesso"
+                referencedColumnNames="id_temp_unidade_siorg_acesso"/>
+        <addForeignKeyConstraint
+                baseTableName="tb_temp_unidade_siorg_acesso"
+                baseColumnNames="temp_orgao_siorg_acesso_id"
+                constraintName="fk_temp_orgao_siorg_acesso"
+                referencedTableName="tb_temp_orgao_siorg_acesso"
+                referencedColumnNames="id_temp_orgao_siorg_acesso"/>
+    </changeSet>
+
+    <changeSet author="frank.ramirez" id="1.20.07">
+        <createSequence sequenceName="seq_tb_temp_orgao_siorg_acesso" schemaName="sdsic" startValue="1" incrementBy="1"/>
+        <createSequence sequenceName="seq_tb_temp_unidade_siorg_acesso" schemaName="sdsic" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="frank.ramirez" id="1.20.08">
+        <modifyDataType tableName="tb_temp_orgao_siorg_acesso" columnName="co_codigo_ug" newDataType="varchar(20)"/>
+        <modifyDataType tableName="tb_temp_orgao_siorg_acesso" columnName="sg_sigla" newDataType="varchar(20)"/>
+        <modifyDataType tableName="tb_temp_orgao_siorg_acesso" columnName="nm_nome" newDataType="text"/>
+        <modifyDataType tableName="tb_temp_unidade_siorg_acesso" columnName="co_codigo_ug" newDataType="varchar(20)"/>
+        <modifyDataType tableName="tb_temp_unidade_siorg_acesso" columnName="sg_sigla" newDataType="varchar(20)"/>
+        <modifyDataType tableName="tb_temp_unidade_siorg_acesso" columnName="nm_nome" newDataType="text"/>
+    </changeSet>
+
+    <changeSet author="frank.ramirez" id="1.20.09">
+        <dropColumn columnName="ds_assinatura" schemaName="sdsic" tableName="tb_usuario_acessos"/>
+    </changeSet>
+
+    <changeSet author="frank.ramirez" id="1.20.10">
+        <addColumn schemaName="sdsic" tableName="tb_usuario_acesso_perfil_acesso">
+            <column name="ds_assinatura" type="varchar(100)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="frank.ramirez" id="1.20.11">
+        <insert tableName="tb_categoria" schemaName="sdsic">
+            <column name="id_categoria" value="17"/>
+            <column name="num_categoria" value="16"/>
+            <column name="ds_categoria" value="Cultura, Lazer e Esporte"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="frank.ramirez" id="1.20.12">
+        <insert tableName="tb_sub_categoria" schemaName="sdsic">
+            <column name="id_sub_categoria" value="144"/>
+            <column name="ds_sub_categoria" value="Cultura"/>
+            <column name="id_categoria" value="17"/>
+        </insert>
+        <insert tableName="tb_sub_categoria" schemaName="sdsic">
+            <column name="id_sub_categoria" value="145"/>
+            <column name="ds_sub_categoria" value="Esporte"/>
+            <column name="id_categoria" value="17"/>
+        </insert>
+        <insert tableName="tb_sub_categoria" schemaName="sdsic">
+            <column name="id_sub_categoria" value="146"/>
+            <column name="ds_sub_categoria" value="Lazer"/>
+            <column name="id_categoria" value="17"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

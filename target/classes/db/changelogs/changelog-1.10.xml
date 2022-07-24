@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="jean.reis" id="1.10.01">
+        <addColumn schemaName="sdsic"
+                   tableName="tb_andamento">
+            <column name="ds_observacao_usuario" type="varchar"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.10.02">
+        <addColumn schemaName="sdsic"
+                   tableName="tb_andamento_recurso">
+            <column name="ds_observacao_usuario" type="varchar"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="1.10.03" author="maicon.godoy">
+        <addColumn schemaName="sdsic"
+                   tableName="tb_andamento_recurso">
+            <column name="ds_justificativa" type="varchar"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="1.10.04" author="maicon.godoy">
+        <addColumn schemaName="sdsic"
+                tableName="tb_andamento">
+            <column name="ds_justificativa" type="varchar"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="1.10.05" author="jean.reis">
+        <addColumn schemaName="sdsic"
+                   tableName="tb_pedido">
+            <column name="id_pedido_duplicado" type="bigint"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

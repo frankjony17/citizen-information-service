@@ -1,0 +1,1421 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="jean.reis" id="1.02.01">
+        <addColumn schemaName="fks"
+                   tableName="tb_pedido">
+            <column name="ds_resumo_solicitacao" type="varchar(255)"/>
+        </addColumn>
+        <addColumn schemaName="fks"
+                   tableName="tb_pedido">
+            <column name="dt_vencimento_unidade" type="date"/>
+        </addColumn>
+        <addColumn schemaName="fks"
+                   tableName="tb_pedido">
+            <column name="ds_observacao" type="text"/>
+        </addColumn>
+        <addColumn schemaName="fks"
+                   tableName="tb_pedido">
+            <column name="ds_resposta_esic" type="text"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.02.02">
+        <createTable schemaName="fks" tableName="tb_anexo_pedido">
+            <column name="id_anexo_pedido" type="bigint">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="nm_nome_gerado" type="varchar(255)"/>
+            <column name="nm_nome_original" type="varchar(255)"/>
+            <column name="tp_extensao" type="varchar(255)"/>
+            <column name="num_temanho" type="decimal"/>
+            <column name="id_pedido" type="bigint"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="tb_anexo_pedido"
+                                 baseColumnNames="id_pedido"
+                                 constraintName="fk_tb_pedido"
+                                 referencedTableName="tb_pedido"
+                                 referencedColumnNames="id_pedido"/>
+        <createSequence sequenceName="seq_tb_anexo_pedido"
+                        schemaName="fks" startValue="1" incrementBy="1"/>
+
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.02.03">
+        <createTable schemaName="fks" tableName="tb_anexo_resposta_fks">
+            <column name="id_anexo_resposta_fks" type="bigint">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="nm_nome" type="varchar(255)"/>
+            <column name="tp_extensao" type="varchar(255)"/>
+            <column name="num_temanho" type="decimal"/>
+            <column name="id_pedido" type="bigint"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="tb_anexo_resposta_fks"
+                                 baseColumnNames="id_pedido"
+                                 constraintName="fk_tb_pedido"
+                                 referencedTableName="tb_pedido"
+                                 referencedColumnNames="id_pedido"/>
+        <createSequence sequenceName="seq_tb_anexo_resposta_fks"
+                        schemaName="fks" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.02.04">
+        <createTable schemaName="fks" tableName="tb_tipo_tratamento">
+            <column name="id_tipo_tratamento" type="bigint">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="tp_tipo_tratamento" type="varchar(255)"/>
+        </createTable>
+        <createSequence sequenceName="seq_tb_tipo_tratamento"
+                        schemaName="fks" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.02.05">
+        <createTable schemaName="fks" tableName="tb_historico_tratamento">
+            <column name="id_historico_tratamento" type="bigint">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="dh_data" type="date"/>
+            <column name="nm_responsavel" type="varchar(255)"/>
+            <column name="id_pedido" type="bigint"/>
+            <column name="id_tipo_tratamento" type="bigint"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="tb_historico_tratamento"
+                                 baseColumnNames="id_pedido"
+                                 constraintName="fk_tb_pedido"
+                                 referencedTableName="tb_pedido"
+                                 referencedColumnNames="id_pedido"/>
+
+        <addForeignKeyConstraint baseTableName="tb_historico_tratamento"
+                                 baseColumnNames="id_tipo_tratamento"
+                                 constraintName="fk_tb_tipo_tratamento"
+                                 referencedTableName="tb_tipo_tratamento"
+                                 referencedColumnNames="id_tipo_tratamento"/>
+        <createSequence sequenceName="seq_tb_historico_tratamento"
+                        schemaName="fks" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+
+    <changeSet author="giovane.oliveira" id="1.02.06">
+        <createTable tableName="tb_categoria" schemaName="fks">
+            <column name="id_categoria" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="num_categoria" type="bigint"/>
+            <column name="ds_categoria" type="varchar"/>
+        </createTable>
+
+    </changeSet>
+
+    <changeSet author="giovane.oliveira" id="1.02.07">
+
+        <createTable tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="ds_sub_categoria" type="varchar"/>
+
+            <column name="id_categoria" type="bigint"/>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="tb_sub_categoria"
+                baseColumnNames="id_categoria"
+                constraintName="fk_categoria_subcategoria"
+                referencedTableName="tb_categoria"
+                referencedColumnNames="id_categoria"/>
+
+    </changeSet>
+
+    <changeSet author="giovane.oliveira" id="1.02.08">
+
+        <insert tableName="tb_categoria" schemaName="fks">
+            <column name="id_categoria" value="1"/>
+            <column name="num_categoria" value="0"/>
+            <column name="ds_categoria" value="Agricultura, extrativismo e pesca"/>
+        </insert>
+
+        <insert tableName="tb_categoria" schemaName="fks">
+            <column name="id_categoria" value="2"/>
+            <column name="num_categoria" value="1"/>
+            <column name="ds_categoria" value="Ciência, Informação e Comunicação"/>
+        </insert>
+
+        <insert tableName="tb_categoria" schemaName="fks">
+            <column name="id_categoria" value="3"/>
+            <column name="num_categoria" value="2"/>
+            <column name="ds_categoria" value="Comércio, Serviços e Turismo"/>
+        </insert>
+
+        <insert tableName="tb_categoria" schemaName="fks">
+            <column name="id_categoria" value="4"/>
+            <column name="num_categoria" value="3"/>
+            <column name="ds_categoria" value="Defesa e Segurança"/>
+        </insert>
+
+        <insert tableName="tb_categoria" schemaName="fks">
+            <column name="id_categoria" value="5"/>
+            <column name="num_categoria" value="4"/>
+            <column name="ds_categoria" value="Economia e Finanças"/>
+        </insert>
+
+        <insert tableName="tb_categoria" schemaName="fks">
+            <column name="id_categoria" value="6"/>
+            <column name="num_categoria" value="5"/>
+            <column name="ds_categoria" value="Educação"/>
+        </insert>
+
+        <insert tableName="tb_categoria" schemaName="fks">
+            <column name="id_categoria" value="7"/>
+            <column name="num_categoria" value="6"/>
+            <column name="ds_categoria" value="Governo e Política"/>
+        </insert>
+
+        <insert tableName="tb_categoria" schemaName="fks">
+            <column name="id_categoria" value="8"/>
+            <column name="num_categoria" value="7"/>
+            <column name="ds_categoria" value="Habitação, Saneamento e Urbanismo"/>
+        </insert>
+
+        <insert tableName="tb_categoria" schemaName="fks">
+            <column name="id_categoria" value="9"/>
+            <column name="num_categoria" value="8"/>
+            <column name="ds_categoria" value="Indústria"/>
+        </insert>
+
+        <insert tableName="tb_categoria" schemaName="fks">
+            <column name="id_categoria" value="10"/>
+            <column name="num_categoria" value="9"/>
+            <column name="ds_categoria" value="Justiça e Legislação"/>
+        </insert>
+
+        <insert tableName="tb_categoria" schemaName="fks">
+            <column name="id_categoria" value="11"/>
+            <column name="num_categoria" value="10"/>
+            <column name="ds_categoria" value="Meio ambiente"/>
+        </insert>
+
+        <insert tableName="tb_categoria" schemaName="fks">
+            <column name="id_categoria" value="12"/>
+            <column name="num_categoria" value="11"/>
+            <column name="ds_categoria" value="Pessoa, família e sociedade"/>
+        </insert>
+
+        <insert tableName="tb_categoria" schemaName="fks">
+            <column name="id_categoria" value="13"/>
+            <column name="num_categoria" value="12"/>
+            <column name="ds_categoria" value="Relações internacionais"/>
+        </insert>
+
+        <insert tableName="tb_categoria" schemaName="fks">
+            <column name="id_categoria" value="14"/>
+            <column name="num_categoria" value="13"/>
+            <column name="ds_categoria" value="Saúde"/>
+        </insert>
+
+        <insert tableName="tb_categoria" schemaName="fks">
+            <column name="id_categoria" value="15"/>
+            <column name="num_categoria" value="14"/>
+            <column name="ds_categoria" value="Trabalho"/>
+        </insert>
+
+        <insert tableName="tb_categoria" schemaName="fks">
+            <column name="id_categoria" value="16"/>
+            <column name="num_categoria" value="15"/>
+            <column name="ds_categoria" value="Transportes e trânsito"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="giovane.oliveira" id="1.02.09">
+
+        <!--SubCategoria  Agricultura, extrativismo e pesca.-->
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="1"/>
+            <column name="ds_sub_categoria" value="Abastecimento"/>
+            <column name="id_categoria" value="1"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="2"/>
+            <column name="ds_sub_categoria" value="Agricultura familiar"/>
+            <column name="id_categoria" value="1"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="3"/>
+            <column name="ds_sub_categoria" value="Agricultura Orgânica"/>
+            <column name="id_categoria" value="1"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="4"/>
+            <column name="ds_sub_categoria" value="Agricultura de Subsistência"/>
+            <column name="id_categoria" value="1"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="5"/>
+            <column name="ds_sub_categoria" value="Alimento"/>
+            <column name="id_categoria" value="1"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="6"/>
+            <column name="ds_sub_categoria" value="Assistência Técnica"/>
+            <column name="id_categoria" value="1"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="7"/>
+            <column name="ds_sub_categoria" value=" Defesa Vegetal"/>
+            <column name="id_categoria" value="1"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="8"/>
+            <column name="ds_sub_categoria" value="Engenharia Agrícola"/>
+            <column name="id_categoria" value="1"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="9"/>
+            <column name="ds_sub_categoria" value="Extensão Rural"/>
+            <column name="id_categoria" value="1"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="10"/>
+            <column name="ds_sub_categoria" value="Extrativismo"/>
+            <column name="id_categoria" value="1"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="11"/>
+            <column name="ds_sub_categoria" value="Organização Agrária"/>
+            <column name="id_categoria" value="1"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="12"/>
+            <column name="ds_sub_categoria" value="Pecuária"/>
+            <column name="id_categoria" value="1"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="13"/>
+            <column name="ds_sub_categoria" value="Pesca"/>
+            <column name="id_categoria" value="1"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="14"/>
+            <column name="ds_sub_categoria" value="Política Agrícola"/>
+            <column name="id_categoria" value="1"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="15"/>
+            <column name="ds_sub_categoria" value="Produção Vegetal"/>
+            <column name="id_categoria" value="1"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="16"/>
+            <column name="ds_sub_categoria" value="Produto Vegetal"/>
+            <column name="id_categoria" value="1"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="17"/>
+            <column name="ds_sub_categoria" value="Solos"/>
+            <column name="id_categoria" value="1"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="18"/>
+            <column name="ds_sub_categoria" value="Transgenia e Sequenciamento"/>
+            <column name="id_categoria" value="1"/>
+        </insert>
+
+        <!--Ciência, Informação e Comunicação-->
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="20"/>
+            <column name="ds_sub_categoria" value="Ciência e Tecnologia"/>
+            <column name="id_categoria" value="2"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="21"/>
+            <column name="ds_sub_categoria" value=" Comunicação"/>
+            <column name="id_categoria" value="2"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="22"/>
+            <column name="ds_sub_categoria" value=" Informação - Gestão"/>
+            <column name="id_categoria" value="2"/>
+
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="23"/>
+            <column name="ds_sub_categoria" value="Preservação e Acesso"/>
+            <column name="id_categoria" value="2"/>
+        </insert>
+
+        <!--SubCategoria  Comércio, Serviços e Turismo -->
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="25"/>
+            <column name="ds_sub_categoria" value="Comércio e Serviços"/>
+            <column name="id_categoria" value="3"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="26"/>
+            <column name="ds_sub_categoria" value="Turismo"/>
+            <column name="id_categoria" value="3"/>
+        </insert>
+
+        <!--SubCategoria Defesa e Segurança -->
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="27"/>
+            <column name="ds_sub_categoria" value="Defesa nacional"/>
+            <column name="id_categoria" value="4"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="28"/>
+            <column name="ds_sub_categoria" value="Segurança nacional"/>
+            <column name="id_categoria" value="4"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="29"/>
+            <column name="ds_sub_categoria" value="Segurança pública"/>
+            <column name="id_categoria" value="4"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="30"/>
+            <column name="ds_sub_categoria" value="Serviço de inteligência"/>
+            <column name="id_categoria" value="4"/>
+        </insert>
+
+        <!--SubCategoria: Economia e Finanças.-->
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="31"/>
+            <column name="ds_sub_categoria" value="Administração financeira"/>
+            <column name="id_categoria" value="5"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="32"/>
+            <column name="ds_sub_categoria" value="Economia"/>
+            <column name="id_categoria" value="5"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="33"/>
+            <column name="ds_sub_categoria" value="Encargos financeiros"/>
+            <column name="id_categoria" value="5"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="34"/>
+            <column name="ds_sub_categoria" value="Finanças"/>
+            <column name="id_categoria" value="5"/>
+        </insert>
+
+        <!--Educação-->
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="35"/>
+            <column name="ds_sub_categoria" value=" Assistência ao estudante"/>
+            <column name="id_categoria" value="6"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="36"/>
+            <column name="ds_sub_categoria" value="Educação a distância"/>
+            <column name="id_categoria" value="6"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="37"/>
+            <column name="ds_sub_categoria" value="Educação ambiental"/>
+            <column name="id_categoria" value="6"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="38"/>
+            <column name="ds_sub_categoria" value=" Educação básica"/>
+            <column name="id_categoria" value="6"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="39"/>
+            <column name="ds_sub_categoria" value="Educação de campo"/>
+            <column name="id_categoria" value="6"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="40"/>
+            <column name="ds_sub_categoria" value="Educação indígena"/>
+            <column name="id_categoria" value="6"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="41"/>
+            <column name="ds_sub_categoria" value="Educação de jovens e adultos"/>
+            <column name="id_categoria" value="6"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="42"/>
+            <column name="ds_sub_categoria" value="Educação profissional e Tecnológica"/>
+            <column name="id_categoria" value="6"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="43"/>
+            <column name="ds_sub_categoria" value="Educação para quilombolas"/>
+            <column name="id_categoria" value="6"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="44"/>
+            <column name="ds_sub_categoria" value="Educação superior"/>
+            <column name="id_categoria" value="6"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="45"/>
+            <column name="ds_sub_categoria" value="Financiamento da educação"/>
+            <column name="id_categoria" value="6"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="46"/>
+            <column name="ds_sub_categoria" value="Gestão escolar"/>
+            <column name="id_categoria" value="6"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="47"/>
+            <column name="ds_sub_categoria" value="Métodos e meios de ensino e aprendizagem"/>
+            <column name="id_categoria" value="6"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="48"/>
+            <column name="ds_sub_categoria" value="Parâmetros e diretrizes curriculares nacionais"/>
+            <column name="id_categoria" value="6"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="49"/>
+            <column name="ds_sub_categoria" value="Profissionais da educação"/>
+            <column name="id_categoria" value="6"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="50"/>
+            <column name="ds_sub_categoria" value="Sistema educacional - Avaliação"/>
+            <column name="id_categoria" value="6"/>
+        </insert>
+
+        <!--:Governo e Política-->
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="51"/>
+            <column name="ds_sub_categoria" value="Administração pública"/>
+            <column name="id_categoria" value="7"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="52"/>
+            <column name="ds_sub_categoria" value=" Fiscalização do estado"/>
+            <column name="id_categoria" value="7"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="53"/>
+            <column name="ds_sub_categoria" value="Governo eletrônico"/>
+            <column name="id_categoria" value="7"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="54"/>
+            <column name="ds_sub_categoria" value="Organização do estado"/>
+            <column name="id_categoria" value="7"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="55"/>
+            <column name="ds_sub_categoria" value="Política"/>
+            <column name="id_categoria" value="7"/>
+        </insert>
+
+        <!--Habitação, Saneamento e Urbanismo-->
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="56"/>
+            <column name="ds_sub_categoria" value="Habitação"/>
+            <column name="id_categoria" value="8"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="57"/>
+            <column name="ds_sub_categoria" value="Planejamento urbano"/>
+            <column name="id_categoria" value="8"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="58"/>
+            <column name="ds_sub_categoria" value="Saneamento urbano"/>
+            <column name="id_categoria" value="8"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="59"/>
+            <column name="ds_sub_categoria" value="Serviços Urbanos"/>
+            <column name="id_categoria" value="8"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="60"/>
+            <column name="ds_sub_categoria" value="Urbanismo"/>
+            <column name="id_categoria" value="8"/>
+        </insert>
+
+        <!--Indústria-->
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="61"/>
+            <column name="ds_sub_categoria" value="Política e gestão industrial"/>
+            <column name="id_categoria" value="9"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="62"/>
+            <column name="ds_sub_categoria" value="Produção Industrial"/>
+            <column name="id_categoria" value="9"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="63"/>
+            <column name="ds_sub_categoria" value="Recursos energéticos"/>
+            <column name="id_categoria" value="9"/>
+        </insert>
+
+        <!-- Justiça e Legislação-->
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="64"/>
+            <column name="ds_sub_categoria" value="Justiça"/>
+            <column name="id_categoria" value="10"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="65"/>
+            <column name="ds_sub_categoria" value="Legislação e jurisprudência"/>
+            <column name="id_categoria" value="10"/>
+        </insert>
+
+        <!--Meio ambiente-->
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="66"/>
+            <column name="ds_sub_categoria" value="Águas"/>
+            <column name="id_categoria" value="11"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="67"/>
+            <column name="ds_sub_categoria" value="Ambientes ocupados pelo homem"/>
+            <column name="id_categoria" value="11"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="68"/>
+            <column name="ds_sub_categoria" value="Áreas protegidas"/>
+            <column name="id_categoria" value="11"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="69"/>
+            <column name="ds_sub_categoria" value="Biodiversidade"/>
+            <column name="id_categoria" value="11"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="70"/>
+            <column name="ds_sub_categoria" value="Cidadania ambiental"/>
+            <column name="id_categoria" value="11"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="71"/>
+            <column name="ds_sub_categoria" value="Economia e meio ambiente"/>
+            <column name="id_categoria" value="11"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="72"/>
+            <column name="ds_sub_categoria" value="Florestas"/>
+            <column name="id_categoria" value="11"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="73"/>
+            <column name="ds_sub_categoria" value="Gestão de meio ambiente Infrações ambientais"/>
+            <column name="id_categoria" value="11"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="74"/>
+            <column name="ds_sub_categoria" value="Qualidade ambiental"/>
+            <column name="id_categoria" value="11"/>
+        </insert>
+
+        <!-- Pessoa, família e sociedade-->
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="75"/>
+            <column name="ds_sub_categoria" value="Assistência e desenvolvimento social"/>
+            <column name="id_categoria" value="12"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="76"/>
+            <column name="ds_sub_categoria" value="Comunidade e sociedade"/>
+            <column name="id_categoria" value="12"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="77"/>
+            <column name="ds_sub_categoria" value="Família"/>
+            <column name="id_categoria" value="12"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="78"/>
+            <column name="ds_sub_categoria" value="Pessoa"/>
+            <column name="id_categoria" value="12"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="79"/>
+            <column name="ds_sub_categoria" value="Previdência social"/>
+            <column name="id_categoria" value="12"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="80"/>
+            <column name="ds_sub_categoria" value="Proteção e defesa do cidadão"/>
+            <column name="id_categoria" value="12"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="81"/>
+            <column name="ds_sub_categoria" value="Sociedade Civil - Organização e participação"/>
+            <column name="id_categoria" value="12"/>
+        </insert>
+
+        <!--Relações internacionais-->
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="82"/>
+            <column name="ds_sub_categoria" value="Estrangeiro"/>
+            <column name="id_categoria" value="13"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="83"/>
+            <column name="ds_sub_categoria" value="Organizações internacionais"/>
+            <column name="id_categoria" value="13"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="84"/>
+            <column name="ds_sub_categoria" value="Política externa"/>
+            <column name="id_categoria" value="13"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="85"/>
+            <column name="ds_sub_categoria" value="Promoção comercial internacional"/>
+            <column name="id_categoria" value="13"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="86"/>
+            <column name="ds_sub_categoria" value="Relações diplomáticas"/>
+            <column name="id_categoria" value="13"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="87"/>
+            <column name="ds_sub_categoria" value="Serviços consulares"/>
+            <column name="id_categoria" value="13"/>
+        </insert>
+
+        <!-- SubCategoria de Saúde-->
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="88"/>
+            <column name="ds_sub_categoria" value="Alimentação e nutrição"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="89"/>
+            <column name="ds_sub_categoria" value="Ambiente e saúde"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="90"/>
+            <column name="ds_sub_categoria" value="Arquitetura e engenharia em saúde"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="91"/>
+            <column name="ds_sub_categoria" value="Auditoria em saúde"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="92"/>
+            <column name="ds_sub_categoria" value="Ciência e tecnologia em saúde"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="93"/>
+            <column name="ds_sub_categoria" value="Educação para a saúde"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="94"/>
+            <column name="ds_sub_categoria" value="Emergências e Urgências"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="95"/>
+            <column name="ds_sub_categoria" value="Ética de profissionais de saúde"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="96"/>
+            <column name="ds_sub_categoria" value="Farmácia"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="97"/>
+            <column name="ds_sub_categoria" value="Humanização na saúde"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="98"/>
+            <column name="ds_sub_categoria" value="Infecção hospitalar"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="99"/>
+            <column name="ds_sub_categoria" value="Legislação de saúde"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="100"/>
+            <column name="ds_sub_categoria" value="Medicina natural"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="101"/>
+            <column name="ds_sub_categoria" value="Orçamento de saúde"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="102"/>
+            <column name="ds_sub_categoria" value="Participação e controle social em saúde"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="103"/>
+            <column name="ds_sub_categoria" value="Recursos humanos em saúde"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="104"/>
+            <column name="ds_sub_categoria" value="Sangue e hemoderivados"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="105"/>
+            <column name="ds_sub_categoria" value="Saúde do adolescente e do jovem"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="106"/>
+            <column name="ds_sub_categoria" value="Saúde bucal"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="107"/>
+            <column name="ds_sub_categoria" value="Saúde da criança"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="108"/>
+            <column name="ds_sub_categoria" value="Saúde da família"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="109"/>
+            <column name="ds_sub_categoria" value="Saúde do homem"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="110"/>
+            <column name="ds_sub_categoria" value="Saúde do idoso"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="111"/>
+            <column name="ds_sub_categoria" value="Saúde do indígena"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="112"/>
+            <column name="ds_sub_categoria" value="Saúde mental"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="113"/>
+            <column name="ds_sub_categoria" value="Saúde da mulher"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="114"/>
+            <column name="ds_sub_categoria" value="Saúde ocular"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="115"/>
+            <column name="ds_sub_categoria" value="Saúde da população negra"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="116"/>
+            <column name="ds_sub_categoria" value="Saúde dos Portadores de deficiências"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="117"/>
+            <column name="ds_sub_categoria" value="Saúde reprodutiva"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="118"/>
+            <column name="ds_sub_categoria" value="Saúde no sistema penitenciário"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="119"/>
+            <column name="ds_sub_categoria" value="Saúde do trabalhador"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="120"/>
+            <column name="ds_sub_categoria" value="Saúde do viajante"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="121"/>
+            <column name="ds_sub_categoria" value="Sistema de informação em saúde"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="122"/>
+            <column name="ds_sub_categoria" value="Sistema de saúde"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="123"/>
+            <column name="ds_sub_categoria" value="Transplantes de órgãos e tecidos"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="124"/>
+            <column name="ds_sub_categoria" value="Unidades de saúde"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="125"/>
+            <column name="ds_sub_categoria" value="Vacinação"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="126"/>
+            <column name="ds_sub_categoria" value="Vigilância sanitária"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="127"/>
+            <column name="ds_sub_categoria" value="Violência"/>
+            <column name="id_categoria" value="14"/>
+        </insert>
+
+        <!--SubCategoria de Trabalho-->
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="128"/>
+            <column name="ds_sub_categoria" value="Fiscalização do trabalho"/>
+            <column name="id_categoria" value="15"/>
+        </insert>
+
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="129"/>
+            <column name="ds_sub_categoria" value="Legislação trabalhista"/>
+            <column name="id_categoria" value="15"/>
+        </insert>
+
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="130"/>
+            <column name="ds_sub_categoria" value="Mercado de trabalho"/>
+            <column name="id_categoria" value="15"/>
+        </insert>
+
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="131"/>
+            <column name="ds_sub_categoria" value="Política trabalhista"/>
+            <column name="id_categoria" value="15"/>
+        </insert>
+
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="132"/>
+            <column name="ds_sub_categoria" value="Profissões e ocupações"/>
+            <column name="id_categoria" value="15"/>
+        </insert>
+
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="133"/>
+            <column name="ds_sub_categoria" value="Qualificação e aprendizagem profissional"/>
+            <column name="id_categoria" value="15"/>
+        </insert>
+
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="134"/>
+            <column name="ds_sub_categoria" value="Trabalho estrangeiro"/>
+            <column name="id_categoria" value="15"/>
+        </insert>
+
+        <!--Transportes e trânsito-->
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="135"/>
+            <column name="ds_sub_categoria" value="Trânsito"/>
+            <column name="id_categoria" value="16"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="136"/>
+            <column name="ds_sub_categoria" value="Transporte aéreo"/>
+            <column name="id_categoria" value="16"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="137"/>
+            <column name="ds_sub_categoria" value="Transporte aquaviário"/>
+            <column name="id_categoria" value="16"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="138"/>
+            <column name="ds_sub_categoria" value="Transporte dutoviário"/>
+            <column name="id_categoria" value="16"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="139"/>
+            <column name="ds_sub_categoria" value="Transporte especial"/>
+            <column name="id_categoria" value="16"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="140"/>
+            <column name="ds_sub_categoria" value="Transporte ferroviário"/>
+            <column name="id_categoria" value="16"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="141"/>
+            <column name="ds_sub_categoria" value="Transporte internacional"/>
+            <column name="id_categoria" value="16"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="142"/>
+            <column name="ds_sub_categoria" value="Transporte multimodal"/>
+            <column name="id_categoria" value="16"/>
+        </insert>
+
+        <insert tableName="tb_sub_categoria" schemaName="fks">
+            <column name="id_sub_categoria" value="143"/>
+            <column name="ds_sub_categoria" value="Transporte rodoviário"/>
+            <column name="id_categoria" value="16"/>
+        </insert>
+
+    </changeSet>
+
+    <changeSet author="giovane.oliveira" id="1.02.10">
+        <createTable tableName="tb_tipo_manifestacao" schemaName="fks">
+            <column name="id_tipo_manifestacao" type="bigint">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="tp_resposta" type="varchar(255)"/>
+            <column name="ds_resposta" type="text"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.02.11">
+        <createTable schemaName="fks" tableName="tb_eouv">
+            <column name="id_eouv" type="bigint">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="id_pedido" type="bigint"/>
+            <column name="id_tipo_tratamento" type="bigint"/>
+            <column name="id_tipo_manifestacao" type="bigint"/>
+            <column name="id_categoria" type="bigint"/>
+            <column name="id_sub_categoria" type="bigint"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="tb_eouv"
+                                 baseColumnNames="id_tipo_tratamento"
+                                 constraintName="fk_tb_tipo_tratamento"
+                                 referencedTableName="tb_tipo_tratamento"
+                                 referencedColumnNames="id_tipo_tratamento"/>
+
+        <addForeignKeyConstraint baseTableName="tb_eouv"
+                                 baseColumnNames="id_tipo_manifestacao"
+                                 constraintName="fk_tb_tipo_manifestacao"
+                                 referencedTableName="tb_tipo_manifestacao"
+                                 referencedColumnNames="id_tipo_manifestacao"/>
+
+        <addForeignKeyConstraint baseTableName="tb_eouv"
+                                 baseColumnNames="id_categoria"
+                                 constraintName="fk_tb_categoria"
+                                 referencedTableName="tb_categoria"
+                                 referencedColumnNames="id_categoria"/>
+
+        <addForeignKeyConstraint baseTableName="tb_eouv"
+                                 baseColumnNames="id_sub_categoria"
+                                 constraintName="fk_tb_categoria_subcategoria"
+                                 referencedTableName="tb_sub_categoria"
+                                 referencedColumnNames="id_sub_categoria"/>
+
+        <createSequence sequenceName="seq_tb_eouv"
+                        schemaName="fks" startValue="1" incrementBy="1"/>
+
+    </changeSet>
+    <changeSet author="jean.reis" id="1.02.12">
+        <addColumn schemaName="fks"
+                   tableName="tb_pedido">
+            <column name="dt_resposta_esic" type="date"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="giovane.oliveira" id="1.02.13">
+
+        <insert tableName="tb_tipo_manifestacao" schemaName="fks">
+            <column name="id_tipo_manifestacao" value="1"/>
+            <column name="tp_resposta" value="Denúncia"/>
+            <column name="ds_resposta" value="Prezado(a) Senhor(a)
+
+Sua manifestação foi analisada e classificada como Denúncia, definida pela Instrução Normativa da Ouvidoria Geral da União nº 01/2014, como uma comunicação de prática de ato ilícito cuja solução dependa da atuação de órgão de controle interno ou externo.
+
+Para dar tratamento adequado à sua denúncia, oferecendo uma resposta mais completa e rápida, ela foi encaminhada ao e-OUV (Sistema de Ouvidorias do Poder Executivo Federal), responsável pelo registro e tratamento de manifestações de ouvidoria.
+
+Caso não concorde com o encaminhamento do pedido, é possível apresentar pedido de revisão à Ouvidoria-Geral da União (OGU), em até 10 (dez) dias. O pedido será julgado pela OGU em até 5 (cinco) dias.
+
+Ao fim do prazo para apresentação do pedido de revisão, o andamento da sua denúncia poderá ser acompanhado por meio do e-OUV, disponível em http://sistema.ouvidorias.gov.br/. Você pode fazer a consulta clicando em 'Consulte sua Manifestação' e informando seu número de protocolo e endereço de e-mail."/>
+        </insert>
+        <insert tableName="tb_tipo_manifestacao" schemaName="fks">
+            <column name="id_tipo_manifestacao" value="2"/>
+            <column name="tp_resposta" value="Reclamação"/>
+            <column name="ds_resposta" value="Prezado(a) Senhor(a)
+
+Sua manifestação foi analisada e classificada como reclamação, definida pela Instrução Normativa da Ouvidoria Geral da União nº 01/2014, como uma demonstração de insatisfação relativa a serviço público.
+
+Para dar tratamento adequado à sua reclamação, oferecendo uma resposta mais completa e rápida, ela foi encaminhada ao e-OUV (Sistema de Ouvidorias do Poder Executivo Federal), responsável pelo registro e tratamento de manifestações de ouvidoria.
+
+Caso não concorde com o encaminhamento do pedido, é possível apresentar pedido de revisão à Ouvidoria-Geral da União (OGU), em até 10 (dez) dias. O pedido será julgado pela OGU em até 5 (cinco) dias.
+
+Ao fim do prazo para apresentação do pedido de revisão, o andamento da sua reclamação poderá ser acompanhado por meio do E-OUV, disponível em http://sistema.ouvidorias.gov.br/. Você pode fazer a consulta clicando em 'Consulte sua Manifestação' e informando seu número de protocolo e endereço de e-mail."/>
+        </insert>
+        <insert tableName="tb_tipo_manifestacao" schemaName="fks">
+            <column name="id_tipo_manifestacao" value="3"/>
+            <column name="tp_resposta" value="Elogio"/>
+            <column name="ds_resposta" value="Prezado(a) Senhor(a)
+
+Sua manifestação foi analisada e classificada como um elogio, definida pela Instrução Normativa da Ouvidoria Geral da União nº 01/2014, como uma demonstração ou reconhecimento ou satisfação sobre o serviço oferecido ou atendimento recebido.
+
+Para dar tratamento adequado ao seu elogio, oferecendo uma resposta mais completa e rápida, ela foi encaminhada ao e-OUV (Sistema de Ouvidorias do Poder Executivo Federal), responsável pelo registro e tratamento de manifestações de ouvidoria.
+
+Caso não concorde com o encaminhamento do pedido, é possível apresentar pedido de revisão à Ouvidoria-Geral da União (OGU), em até 10 (dez) dias. O pedido será julgado pela OGU em até 5 (cinco) dias.
+
+Ao fim do prazo para apresentação do pedido de revisão, o andamento do seu elogio poderá ser acompanhado por meio do e-OUV, disponível em http://sistema.ouvidorias.gov.br/. Você pode fazer a consulta clicando em 'Consulte sua Manifestação' e informando seu número de protocolo e endereço de e-mail."/>
+        </insert>
+        <insert tableName="tb_tipo_manifestacao" schemaName="fks">
+            <column name="id_tipo_manifestacao" value="4"/>
+            <column name="tp_resposta" value="Sugestão"/>
+            <column name="ds_resposta" value="Prezado(a) Senhor(a)
+
+Sua manifestação foi analisada e classificada como uma sugestão, definida pela Instrução Normativa da Ouvidoria Geral da União nº 01/2014, como uma proposição de ideia ou formulação de proposta de aprimoramento de políticas e serviços prestados pela Administração Pública Federal.
+
+Para dar tratamento adequado à sua sugestão, oferecendo uma resposta mais completa e rápida, ela foi encaminhada ao e-OUV (Sistema de Ouvidorias do Poder Executivo Federal), responsável pelo registro e tratamento de manifestações de ouvidoria.
+
+Caso não concorde com o encaminhamento do pedido, é possível apresentar pedido de revisão à Ouvidoria-Geral da União (OGU), em até 10 (dez) dias. O pedido será julgado pela OGU em até 5 (cinco) dias.
+
+Ao fim do prazo para apresentação do pedido de revisão, o andamento da sua sugestão poderá ser acompanhada por meio do e-OUV, disponível em http://sistema.ouvidorias.gov.br/. Você pode fazer a consulta clicando em 'Consulte sua Manifestação' e informando seu número de protocolo e endereço de e-mail."/>
+        </insert>
+        <insert tableName="tb_tipo_manifestacao" schemaName="fks">
+            <column name="id_tipo_manifestacao" value="5"/>
+            <column name="tp_resposta" value="Solicitação"/>
+            <column name="ds_resposta" value="Prezado(a) Senhor(a)
+
+Sua manifestação foi analisada e classificada como uma solicitação, definida pela Instrução Normativa da Ouvidoria Geral da União nº 01/2014, como um requerimento de adoção de providência por parte da administração.
+
+Para dar tratamento adequado à sua solicitação, oferecendo uma resposta mais completa e rápida, ela foi encaminhada ao e-OUV (Sistema de Ouvidorias do Poder Executivo Federal), responsável pelo registro e tratamento de manifestações de ouvidoria.
+
+Caso não concorde com o encaminhamento do pedido, é possível apresentar pedido de revisão à Ouvidoria-Geral da União (OGU), em até 10 (dez) dias. O pedido será julgado pela OGU em até 5 (cinco) dias.
+
+Ao fim do prazo para apresentação do pedido de revisão, o andamento da sua solicitação poderá ser acompanhada por meio do e-OUV, disponível em http://sistema.ouvidorias.gov.br/. Você pode fazer a consulta clicando em 'Consulte sua Manifestação' e informando seu número de protocolo e endereço de e-mail."/>
+        </insert>
+        <insert tableName="tb_tipo_manifestacao" schemaName="fks">
+            <column name="id_tipo_manifestacao" value="6"/>
+            <column name="tp_resposta" value="Não classificada"/>
+            <column name="ds_resposta" value=""/>
+        </insert>
+
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.02.14">
+        <createTable schemaName="fks" tableName="tb_motivo_prorrogacao">
+            <column name="id_motivo_prorrogacao" type="bigint">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="nm_nome" type="varchar(255)"/>
+        </createTable>
+        <createSequence sequenceName="seq_tb_motivo_prorrogacao"
+                        schemaName="fks" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.02.15">
+        <createTable schemaName="fks" tableName="tb_prorrogacao">
+            <column name="id_prorrogacao" type="bigint">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="ds_justificativa_prorrogacao" type="text"/>
+            <column name="id_pedido" type="bigint"/>
+            <column name="id_motivo_prorrogacao" type="bigint"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="tb_prorrogacao"
+                                 baseColumnNames="id_pedido"
+                                 constraintName="fk_tb_pedido"
+                                 referencedTableName="tb_pedido"
+                                 referencedColumnNames="id_pedido"/>
+
+        <addForeignKeyConstraint baseTableName="tb_prorrogacao"
+                                 baseColumnNames="id_motivo_prorrogacao"
+                                 constraintName="fk_tb_motivo_prorrogacao"
+                                 referencedTableName="tb_motivo_prorrogacao"
+                                 referencedColumnNames="id_motivo_prorrogacao"/>
+
+        <createSequence sequenceName="seq_tb_prorrogacao"
+                        schemaName="fks" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.02.16">
+        <insert schemaName="fks"
+                tableName="tb_motivo_prorrogacao">
+            <column name="id_motivo_prorrogacao" value="1"/>
+            <column name="nm_nome" value="Análise da competência para reencaminhamento da informação"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_motivo_prorrogacao">
+            <column name="id_motivo_prorrogacao" value="2"/>
+            <column name="nm_nome" value="Análise da Classificação de Sigilo da Informação"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_motivo_prorrogacao">
+            <column name="id_motivo_prorrogacao" value="3"/>
+            <column name="nm_nome" value="Análise de Conteúdo de Informação Pessoal"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_motivo_prorrogacao">
+            <column name="id_motivo_prorrogacao" value="4"/>
+            <column name="nm_nome" value="Complexidade para Obter a Informação"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_motivo_prorrogacao">
+            <column name="id_motivo_prorrogacao" value="5"/>
+            <column name="nm_nome" value="Indisponibilidade Temporária da Informação"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_motivo_prorrogacao">
+            <column name="id_motivo_prorrogacao" value="6"/>
+            <column name="nm_nome" value="Orçamento de Custos de Reprodução"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_motivo_prorrogacao">
+            <column name="id_motivo_prorrogacao" value="7"/>
+            <column name="nm_nome" value="Outros Motivos"/>
+        </insert>
+        <insert schemaName="fks"
+                tableName="tb_motivo_prorrogacao">
+            <column name="id_motivo_prorrogacao" value="8"/>
+            <column name="nm_nome" value="Reproduzir/Digitalizar Informação Solicitada"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.02.17">
+        <createTable schemaName="fks" tableName="tb_andamento">
+            <column name="id_andamento" type="bigint">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="st_status_tramitacao" type="varchar(255)"/>
+            <column name="nm_unidade" type="varchar(255)"/>
+            <column name="dt_data_inicio" type="date"/>
+            <column name="dt_data_fim" type="date"/>
+            <column name="nm_responsavel" type="varchar(255)"/>
+            <column name="ds_observacao" type="text"/>
+            <column name="id_pedido" type="bigint"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="tb_andamento"
+                                 baseColumnNames="id_pedido"
+                                 constraintName="fk_tb_pedido"
+                                 referencedTableName="tb_pedido"
+                                 referencedColumnNames="id_pedido"/>
+
+        <createSequence sequenceName="seq_tb_andamento"
+                        schemaName="fks" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet author="giovane.oliveira" id="1.02.18">
+
+        <insert schemaName="fks"
+                tableName="tb_tipo_tratamento">
+            <column name="id_tipo_tratamento" value="1"/>
+            <column name="tp_tipo_tratamento" value="Resposta"/>
+        </insert>
+
+        <insert schemaName="fks"
+                tableName="tb_tipo_tratamento">
+            <column name="id_tipo_tratamento" value="2"/>
+            <column name="tp_tipo_tratamento" value="Resposta editada"/>
+        </insert>
+
+        <insert schemaName="fks"
+                tableName="tb_tipo_tratamento">
+            <column name="id_tipo_tratamento" value="3"/>
+            <column name="tp_tipo_tratamento" value="Resposta assinada"/>
+        </insert>
+
+        <insert schemaName="fks"
+                tableName="tb_tipo_tratamento">
+            <column name="id_tipo_tratamento" value="4"/>
+            <column name="tp_tipo_tratamento" value="Proposta de resposta"/>
+        </insert>
+
+        <insert schemaName="fks"
+                tableName="tb_tipo_tratamento">
+            <column name="id_tipo_tratamento" value="5"/>
+            <column name="tp_tipo_tratamento" value="Encaminhada para o E-OUV"/>
+        </insert>
+
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.02.19">
+        <dropColumn columnName="st_status_tramitacao"
+                    schemaName="fks"
+                    tableName="tb_andamento"/>
+        <addColumn schemaName="fks"
+                   tableName="tb_andamento">
+            <column name="id_status_tramitacao" type="bigint"/>
+        </addColumn>
+        <addForeignKeyConstraint baseTableName="tb_andamento"
+                                 baseColumnNames="id_status_tramitacao"
+                                 constraintName="fk_tb_status_tramitacao"
+                                 referencedTableName="tb_status_tramitacao"
+                                 referencedColumnNames="id_status_tramitacao"/>
+    </changeSet>
+
+    <changeSet author="jean.reis" id="1.02.20">
+        <addColumn schemaName="fks"
+                   tableName="tb_pedido">
+            <column name="dt_entrada_protocolo_fks" type="date"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="giovane.oliveira" id="1.02.21">
+        <addColumn schemaName="fks"
+                   tableName="tb_eouv">
+            <column name="ds_palavra_chave" type="varchar(255)"/>
+        </addColumn>
+        <addColumn schemaName="fks"
+                   tableName="tb_eouv">
+            <column name="st_restricao_conteudo" type="boolean"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>
